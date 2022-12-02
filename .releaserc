@@ -1,0 +1,38 @@
+{
+  "branches": [
+    "main"
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        "npmPublish": true
+      }
+    ],
+    "@semantic-release/git",
+    [
+      "@semantic-release/gitlab",
+      {
+        "gitlabUrl": "https://git.sinnerschrader.com",
+        "assets": [
+          {
+            "path": "package.json",
+            "label": "Package.json"
+          },
+          {
+            "path": "CHANGELOG.md",
+            "label": "ChangeLog"
+          }
+        ]
+      }
+    ]
+  ]
+}
