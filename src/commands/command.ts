@@ -7,7 +7,7 @@ export type Config = {
   docBackupFolderName: string;
   moduleBasePath: string;
   configFilename: string;
-  configFolderName: string;
+  rootFolderName: string;
   packageVersion: string;
 };
 
@@ -17,7 +17,7 @@ export class Command {
   private docBackupFolderName: string;
   private moduleBasePath: string;
   private configFilename: string;
-  private configFolderName: string;
+  private rootFolderName: string;
   public packageVersion: string;
 
   get docPath(): string {
@@ -41,13 +41,13 @@ export class Command {
   }
 
   get readmeSourcePath(): string {
-    return path.join(this.moduleBasePath, this.docFolderName, "README.md");
+    return path.join(this.moduleBasePath, this.rootFolderName, "README.md");
   }
 
   get configFileSourcePath(): string {
     return path.join(
       this.moduleBasePath,
-      this.configFolderName,
+      this.rootFolderName,
       this.configFilename
     );
   }
@@ -77,11 +77,11 @@ export class Command {
   }
 
   get docSourceFiles(): string[] {
-    return fs.readdirSync(this.docSourcePath).filter((f) => f !== "README.md");
+    return fs.readdirSync(this.docSourcePath);
   }
 
   get docFiles(): string[] {
-    return fs.readdirSync(this.docPath).filter((f) => f !== "README.md");
+    return fs.readdirSync(this.docPath);
   }
 
   get coverage(): number {
@@ -95,7 +95,7 @@ export class Command {
     this.docBackupFolderName = config.docBackupFolderName;
     this.moduleBasePath = config.moduleBasePath;
     this.configFilename = config.configFilename;
-    this.configFolderName = config.configFolderName;
+    this.rootFolderName = config.rootFolderName;
     this.packageVersion = config.packageVersion;
   }
 }

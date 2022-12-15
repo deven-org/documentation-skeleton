@@ -13,7 +13,7 @@
     "dist/",
     "bin/",
     "src/doc",
-    "src/config",
+    "src/root",
     "CHANGELOG.md",
     "LICENSE",
     "README.md",
