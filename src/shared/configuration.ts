@@ -8,7 +8,7 @@ export const configuration = {
     "src"
   ),
   docFolderName: "doc",
-  configFolderName: "config",
+  rootFolderName: "root",
   docBackupFolderName: "_doc",
   configFilename: "deven-skeleton-install.config.json",
 };
