@@ -1,6 +1,6 @@
 {
-  "name": "deven-documentation-skeleton",
-  "version": "1.5.0",
+  "name": "@deven-org/documentation-skeleton",
+  "version": "1.6.0",
   "description": "Documentation Skeleton to standardise project documentation.",
   "source": "src/index.ts",
   "main": "dist/main.js",
@@ -13,7 +13,7 @@
     "dist/",
     "bin/",
     "src/doc",
-    "src/config",
+    "src/root",
     "CHANGELOG.md",
     "LICENSE",
     "README.md",
@@ -36,23 +36,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://git.sinnerschrader.com/deven/documentation-skeleton.git"
+    "url": "https://github.com/deven-org/documentation-skeleton.git"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "@deven-org:registry": "https://npm.pkg.github.com"
   },
   "keywords": [
     "deven",
     "documentation"
   ],
-  "homepage": "https://git.sinnerschrader.com/deven",
+  "homepage": "https://github.com/deven-org/documentation-skeleton",
   "engines": {
     "node": ">= 14"
   },
   "author": "Deven Team",
   "license": "MIT",
   "bugs": {
-    "url": "https://git.sinnerschrader.com/deven/documentation-skeleton/-/issues"
+    "url": "https://github.com/deven-org/documentation-skeleton/issues"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",

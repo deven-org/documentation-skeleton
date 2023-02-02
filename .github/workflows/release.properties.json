@@ -1,0 +1,7 @@
+{
+  "name": "Release",
+  "description": "Runs the test and create a new release PR",
+  "iconName": "octicon rocket",
+  "categories": ["Automation", "Testing", "Deployment"],
+  "labels": ["Automation"]
+}

@@ -27,14 +27,12 @@ Please list all the requirements the user has to fullfill to be able to run your
 Consider adding links to other tech documentations of possible dependencies to help users meet the requirements.We've added two examples of how you could structure this section:
 
 1. This setup is working for all operating system, testing on Windows 8, Windows 8.1, Windows 10, Mac and Linux.
-This project is a Node.js package. You need Node Version 4 or higher and npm Version 2 or higher, check your installed version with node -v and npm -v.
-
-
+   This project is a Node.js package. You need Node Version 4 or higher and npm Version 2 or higher, check your installed version with node -v and npm -v.
 
 2. To run our code you have to meet the following requirements:
 
 - Node.js v16.17.X <br>
-   (for more information check out the [Node.js Documentation](https://nodejs.org/en/docs/))
+  (for more information check out the [Node.js Documentation](https://nodejs.org/en/docs/))
 - ...
 
 ## How to start
@@ -42,6 +40,7 @@ This project is a Node.js package. You need Node Version 4 or higher and npm Ver
 In this section you're supposed to provide the user with a step by step guide on how to install and use your project. We've added an example below to give you an idea of how you could structure your guide.
 
 1. First, create a folder and a package.json file
+
    ```sh
    $ mkdir my-app
    $ cd my-app
@@ -60,9 +59,6 @@ In this section you're supposed to provide the user with a step by step guide on
    $ npm start
    ```
 
-</details>
-<br>
-
 ## How to test
 
 Please provide a short explanation on how and where to run your tests. You can also add a link to the Testing page to give further information. Also check out the following example to see one possibility to structure this section.
@@ -71,20 +67,21 @@ Example:
 
 Local Setup
 
-
 ```sh
 $ git clone project-name
 $ cd project
 $ npm install
 ```
+
 The project test suite is run with
+
 ```sh
 $ npm test
 ```
 
 # License
-Please add in this section what kind of licence your project uses.
 
+Please add in this section what kind of licence your project uses.
 
 # How to continue
 
