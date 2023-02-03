@@ -1,5 +1,5 @@
 name: "Documentation Skeleton: release and publish"
-run-name: ${{ github.actor }} is running this workflow 🚀
+
 on:
   workflow_dispatch:
   push:
@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  NODE_VERSION: 16
+  NODE_VERSION: '16'
 
 permissions:
   contents: write
@@ -22,7 +22,7 @@ jobs:
       - name: Setup node environment
         uses: actions/setup-node@v3
         with:
-          node-version: $NODE_VERSION
+          node-version: ${{env.NODE_VERSION}}
           cache: npm
       - name: Cache dependencies
         id: cache
@@ -49,7 +49,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - uses: actions/setup-node@v3
         with:
-          node-version: $NODE_VERSION
+          node-version: ${{env.NODE_VERSION}}
           registry-url: "https://registry.npmjs.org"
         if: ${{ steps.release.outputs.release_created }}
       - run: npm publish
