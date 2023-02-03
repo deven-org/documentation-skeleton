@@ -1,5 +1,4 @@
 name: "Documentation Skeleton: unit test"
-run-name: ${{ github.actor }} is running this workflow 🚀
 
 on:  
   push:
