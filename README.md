@@ -2,11 +2,11 @@
 
 ![Render of the terminal](https://github.com/deven-org/documentation-skeleton/raw/main/assets/render.gif)
 
-![Coverage](https://img.shields.io/badge/Code%20Coverage-83%25-success?style=flat)
 [![Issues](https://img.shields.io/github/issues-raw/deven-org/documentation-skeleton.svg?maxAge=25000)](https://github.com/deven-org/documentation-skeleton/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/deven-org/documentation-skeleton.svg?style=flat)](https://github.com/deven-org/documentation-skeleton/pulls)
 [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/deven-org/documentation-skeleton/blob/main/doc/CODEOFCONDUCT.md)  
 [![GitHub contributors](https://img.shields.io/github/contributors/deven-org/documentation-skeleton.svg?style=flat)](https://github.com/deven-org/documentation-skeleton/)
+![Coverage](https://img.shields.io/badge/Code%20Coverage-83%25-success?style=flat)
 
 `deven-documentation-skeleton` is built to work with NodeJS. It clones the deven's documentation skeleton in your project, provides information about the documentation coverage and help to you identify and clone the missing chapters.
 
