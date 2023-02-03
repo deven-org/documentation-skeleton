@@ -1,4 +1,4 @@
-name: "Documentation Skeleton: release and publish"
+name: "Release & Publish"
 
 on:
   workflow_dispatch:
