@@ -1,22 +1,21 @@
 name: "Unit Test"
 
-on:  
+on:
   push:
   pull_request:
     branches:
       - master
       - develop
 
-
 env:
-  NODE_VERSION: '16'
+  NODE_VERSION: "16"
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  Test:
+  Unit-Test:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -37,3 +36,15 @@ jobs:
         run: npm ci
       - name: Run test
         run: npm run test:coverage
+      - name: Code Coverage Summary
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage/cobertura-coverage.xml
+          badge: true
+          fail_below_min: true
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: true
+          indicators: true
+          output: both
+          thresholds: "60 80"
