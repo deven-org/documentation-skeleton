@@ -1,35 +1,42 @@
 name: "Documentation Skeleton: release and publish"
-
+run-name: ${{ github.actor }} is running this workflow 🚀
 on:
   workflow_dispatch:
   push:
     branches:
       - main
 
+env:
+  NODE_VERSION: 16
+
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Check out repository code
         uses: actions/checkout@v3
-
-      - name: Setup node
+      - name: Setup node environment
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: $NODE_VERSION
           cache: npm
-
-      - name: Install dependencies
-        run: npm install
-
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
       - name: Run test
         run: npm run test:coverage
 
-  release-please:
+  Release:
     runs-on: ubuntu-latest
     steps:
       - uses: google-github-actions/release-please-action@v3
@@ -42,7 +49,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: $NODE_VERSION
           registry-url: "https://registry.npmjs.org"
         if: ${{ steps.release.outputs.release_created }}
       - run: npm publish
