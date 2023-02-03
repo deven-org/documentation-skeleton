@@ -1,0 +1,40 @@
+name: "Documentation Skeleton: unit test"
+run-name: ${{ github.actor }} is running this workflow 🚀
+
+on:  
+  push:
+  pull_request:
+    branches:
+      - master
+      - develop
+
+
+env:
+  NODE_VERSION: 16
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Setup node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: $NODE_VERSION
+          cache: npm
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Run test
+        run: npm run test:coverage
