@@ -1,4 +1,4 @@
-name: "Documentation Skeleton: unit test"
+name: "Unit Test"
 
 on:  
   push:
