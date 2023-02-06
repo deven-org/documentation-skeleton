@@ -5,6 +5,18 @@
 
 * add husky hooks and imrove test coverage ([caeff1a](https://git.sinnerschrader.com/deven/documentation-skeleton/commit/caeff1a11f517fb520cd1dff08bb516f77196d07))
 
+## [2.0.3](https://github.com/deven-org/documentation-skeleton/compare/v2.0.2...v2.0.3) (2023-02-06)
+
+
+### Bug Fixes
+
+* **workflow:** add npmrc file ([a14fa09](https://github.com/deven-org/documentation-skeleton/commit/a14fa0933fef0006e0fb56f19cc6bbd47500a7a3))
+
+
+### Miscellaneous Chores
+
+* release 2.0.3 ([468e8a5](https://github.com/deven-org/documentation-skeleton/commit/468e8a577f056e3fd0de3d99f3c253c740f782da))
+
 ## [2.0.2](https://github.com/deven-org/documentation-skeleton/compare/v2.0.1...v2.0.2) (2023-02-06)
 
 
