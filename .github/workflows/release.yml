@@ -7,14 +7,14 @@ on:
       - main
 
 env:
-  NODE_VERSION: '16'
+  NODE_VERSION: "16"
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  Build-and-test:
+  Build-and-Release:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: ${{env.NODE_VERSION}}
           cache: npm
+          registry-url: https://npm.pkg.github.com/
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
@@ -35,24 +36,15 @@ jobs:
         run: npm ci
       - name: Run test
         run: npm run test:coverage
-
-  Release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: google-github-actions/release-please-action@v3
+      - name: Create new release
+        uses: google-github-actions/release-please-action@v3
         id: release
         with:
-          token: ${{secrets.GITHUB_TOKEN}}
           release-type: node
-          package-name: deven-documentation-skeleton
-      - uses: actions/checkout@v3
-        if: ${{ steps.release.outputs.release_created }}
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{env.NODE_VERSION}}
-          registry-url: "https://registry.npmjs.org"
-        if: ${{ steps.release.outputs.release_created }}
-      - run: npm publish
+          package-name: "@deven-org/documentation-skeleton"
+          token: ${{secrets.GITHUB_TOKEN}}
+      - name: NPM Publish
+        run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         if: ${{ steps.release.outputs.release_created }}

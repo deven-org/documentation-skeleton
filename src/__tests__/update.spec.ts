@@ -37,7 +37,7 @@ describe("deven-cli", () => {
       "src/doc": mockFs.load(path.resolve("src/doc"), {
         lazy: false,
       }),
-      "src/config": mockFs.load(path.resolve("src/config"), {
+      "src/root": mockFs.load(path.resolve("src/root"), {
         lazy: false,
       }),
     });
