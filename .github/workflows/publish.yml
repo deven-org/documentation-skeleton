@@ -1,0 +1,17 @@
+name: "Release & Publish"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: NPM Publish
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
