@@ -63,7 +63,7 @@ jobs:
           path: ./node_modules
           key: modules-${{ hashFiles('package-lock.json') }}
       - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true' && ${{ steps.release.outputs.release_created }}
         run: npm ci
       - name: NPM Publish
         run: npm publish
