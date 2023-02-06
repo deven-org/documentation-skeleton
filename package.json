@@ -39,13 +39,13 @@
     "url": "https://github.com/deven-org/documentation-skeleton.git"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "@deven-org:registry": "https://npm.pkg.github.com"
   },
   "keywords": [
     "deven",
     "documentation"
   ],
-  "homepage": "https://git.sinnerschrader.com/deven",
+  "homepage": "https://github.com/deven-org/documentation-skeleton",
   "engines": {
     "node": ">= 14"
   },
