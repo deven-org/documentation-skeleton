@@ -1,5 +1,5 @@
 {
-  "name": "deven-documentation-skeleton",
+  "name": "@deven-org/documentation-skeleton",
   "version": "2.0.0",
   "description": "Documentation Skeleton to standardise project documentation.",
   "source": "src/index.ts",
