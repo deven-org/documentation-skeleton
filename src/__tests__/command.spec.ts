@@ -37,7 +37,7 @@ describe("deven-cli", () => {
       "src/doc": mockFs.load(path.resolve("src/doc"), {
         lazy: false,
       }),
-      "src/config": mockFs.load(path.resolve("src/config"), {
+      "src/root": mockFs.load(path.resolve("src/root"), {
         lazy: false,
       }),
     });
@@ -62,12 +62,12 @@ describe("deven-cli", () => {
     it("provides the right readme backup path (<root>/_README)", async () => {
       expect(command.readmeBackupPath).toBe("fake_test_folder/_README.md");
     });
-    it("provides the right readme source path (src/doc/README)", async () => {
-      expect(command.readmeSourcePath).toBe("src/doc/README.md");
+    it("provides the right readme source path (src/root/README)", async () => {
+      expect(command.readmeSourcePath).toBe("src/root/README.md");
     });
-    it("provides the right readme source path (src/config/deven-skeleton-install.config.json)", async () => {
+    it("provides the right config source path (src/root/deven-skeleton-install.config.json)", async () => {
       expect(command.configFileSourcePath).toBe(
-        "src/config/deven-skeleton-install.config.json"
+        "src/root/deven-skeleton-install.config.json"
       );
     });
     it("return false when the config file doesn't exist", async () => {
