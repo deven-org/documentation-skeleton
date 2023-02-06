@@ -5,6 +5,14 @@
 
 * add husky hooks and imrove test coverage ([caeff1a](https://git.sinnerschrader.com/deven/documentation-skeleton/commit/caeff1a11f517fb520cd1dff08bb516f77196d07))
 
+## [2.0.2](https://github.com/deven-org/documentation-skeleton/compare/v2.0.1...v2.0.2) (2023-02-06)
+
+
+### Bug Fixes
+
+* **workflow:** add lock file ([e3c5d10](https://github.com/deven-org/documentation-skeleton/commit/e3c5d10036e78f8cabc94062e26fcd5b4c6f9c1d))
+* **workflow:** remove unused pipelines ([b353957](https://github.com/deven-org/documentation-skeleton/commit/b35395763c7b9c0f9ed85ddaf002ef4598db5292))
+
 ## [2.0.1](https://github.com/deven-org/documentation-skeleton/compare/v2.0.0...v2.0.1) (2023-02-06)
 
 
