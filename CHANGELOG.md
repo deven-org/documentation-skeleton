@@ -5,6 +5,18 @@
 
 * add husky hooks and imrove test coverage ([caeff1a](https://git.sinnerschrader.com/deven/documentation-skeleton/commit/caeff1a11f517fb520cd1dff08bb516f77196d07))
 
+## 1.6.0 (2023-02-06)
+
+
+### Features
+
+* **workflow:** migrate gitlab workflow to github ([7a2999b](https://github.com/deven-org/documentation-skeleton/commit/7a2999b13afa4cca031e00b0cdc9f935943830aa))
+
+
+### Miscellaneous Chores
+
+* release 2.0.0 ([83862e2](https://github.com/deven-org/documentation-skeleton/commit/83862e231f7f9182b451202f4074ff6df1617152))
+
 ## [2.0.1](https://github.com/deven-org/documentation-skeleton/compare/v2.0.0...v2.0.1) (2023-02-06)
 
 

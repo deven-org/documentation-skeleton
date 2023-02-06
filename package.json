@@ -1,6 +1,6 @@
 {
   "name": "@deven-org/documentation-skeleton",
-  "version": "2.0.0",
+  "version": "1.6.0",
   "description": "Documentation Skeleton to standardise project documentation.",
   "source": "src/index.ts",
   "main": "dist/main.js",
