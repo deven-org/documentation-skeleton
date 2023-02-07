@@ -5,6 +5,67 @@
 
 * add husky hooks and imrove test coverage ([caeff1a](https://git.sinnerschrader.com/deven/documentation-skeleton/commit/caeff1a11f517fb520cd1dff08bb516f77196d07))
 
+## [2.0.2](https://github.com/deven-org/documentation-skeleton/compare/v2.0.1...v2.0.2) (2023-02-06)
+
+
+### Bug Fixes
+
+* **workflow:** add lock file ([e3c5d10](https://github.com/deven-org/documentation-skeleton/commit/e3c5d10036e78f8cabc94062e26fcd5b4c6f9c1d))
+* **workflow:** remove unused pipelines ([b353957](https://github.com/deven-org/documentation-skeleton/commit/b35395763c7b9c0f9ed85ddaf002ef4598db5292))
+
+## [2.0.1](https://github.com/deven-org/documentation-skeleton/compare/v2.0.0...v2.0.1) (2023-02-06)
+
+
+### Bug Fixes
+
+* **workflow:** add write packages permission ([180d5c2](https://github.com/deven-org/documentation-skeleton/commit/180d5c285bd122e193cc212c05f5c421e7b12f75))
+
+## 2.0.0 (2023-02-06)
+
+
+### Features
+
+* **workflow:** migrate gitlab workflow to github ([5fe3cac](https://github.com/deven-org/documentation-skeleton/commit/5fe3cac51d50b8cd6ab4bf51d10f17e381b7db9c))
+
+
+### Miscellaneous Chores
+
+* release 2.0.0 ([#28](https://github.com/deven-org/documentation-skeleton/issues/28)) ([63b23bc](https://github.com/deven-org/documentation-skeleton/commit/63b23bce204e5fed4f384df2354174812a04742f))
+
+## 1.6.0 (2023-02-06)
+
+
+### Features
+
+* **workflow:** migrate gitlab workflow to github ([7a2999b](https://github.com/deven-org/documentation-skeleton/commit/7a2999b13afa4cca031e00b0cdc9f935943830aa))
+
+
+### Miscellaneous Chores
+
+* release 2.0.0 ([83862e2](https://github.com/deven-org/documentation-skeleton/commit/83862e231f7f9182b451202f4074ff6df1617152))
+
+## [2.0.1](https://github.com/deven-org/documentation-skeleton/compare/v2.0.0...v2.0.1) (2023-02-06)
+
+
+### Bug Fixes
+
+* **workflow:** fix release please ([9a09d1a](https://github.com/deven-org/documentation-skeleton/commit/9a09d1aa6b1092441165e61fe3e887b3d1336ec6))
+* **workflow:** fix release please ([d90fb64](https://github.com/deven-org/documentation-skeleton/commit/d90fb64c7676fdae5752168973478648de6909fd))
+* **workflow:** fix release workflow steps ([730a2ef](https://github.com/deven-org/documentation-skeleton/commit/730a2efce0450d71d9af3ef2710b2532445d0854))
+
+## 2.0.0 (2023-02-06)
+
+
+### Features
+
+* **workflow:** migrate gitlab workflow to github ([7a2999b](https://github.com/deven-org/documentation-skeleton/commit/7a2999b13afa4cca031e00b0cdc9f935943830aa))
+
+
+### Miscellaneous Chores
+
+* release 2.0.0 ([83862e2](https://github.com/deven-org/documentation-skeleton/commit/83862e231f7f9182b451202f4074ff6df1617152))
+* release 2.0.0 ([#15](https://github.com/deven-org/documentation-skeleton/issues/15)) ([e22fc32](https://github.com/deven-org/documentation-skeleton/commit/e22fc32080883f89065316d1968a403a60040243))
+
 ## [1.4.1](https://git.sinnerschrader.com/deven/documentation-skeleton/compare/v1.4.0...v1.4.1) (2022-10-27)
 
 

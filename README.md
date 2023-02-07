@@ -1,29 +1,33 @@
 # Deven Documentation Skeleton
 
-<p align="center">  
-  ![Render of the terminal](/assets/render.gif)
-</p>
+![Render of the terminal](https://github.com/deven-org/documentation-skeleton/raw/main/assets/render.gif)
+
+[![Issues](https://img.shields.io/github/issues-raw/deven-org/documentation-skeleton.svg?maxAge=25000)](https://github.com/deven-org/documentation-skeleton/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/deven-org/documentation-skeleton.svg?style=flat)](https://github.com/deven-org/documentation-skeleton/pulls)
+[![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/deven-org/documentation-skeleton/blob/main/doc/CODEOFCONDUCT.md)  
+[![GitHub contributors](https://img.shields.io/github/contributors/deven-org/documentation-skeleton.svg?style=flat)](https://github.com/deven-org/documentation-skeleton/)
+![Coverage](https://img.shields.io/badge/Code%20Coverage-83%25-success?style=flat)
 
 `deven-documentation-skeleton` is built to work with NodeJS. It clones the deven's documentation skeleton in your project, provides information about the documentation coverage and help to you identify and clone the missing chapters.
 
 ## :information_source: Table of contents
 
 - [Deven Documentation Skeleton](#deven-documentation-skeleton)
-  - [:information_source: Table of contents](#information_source-table-of-contents)
+  - [:information\_source: Table of contents](#information_source-table-of-contents)
 - [:star: Introduction](#star-introduction)
   - [Goals](#goals)
-  - [:file_folder: Documentation Structure](#file_folder-documentation-structure)
+  - [:file\_folder: Documentation Structure](#file_folder-documentation-structure)
   - [Requirements](#requirements)
   - [Installation](#installation)
   - [:rocket: How to use it](#rocket-how-to-use-it)
     - [1. Install](#1-install)
     - [2. Check](#2-check)
     - [3. Update](#3-update)
-- [:white_check_mark: How to test](#white_check_mark-how-to-test)
+- [:white\_check\_mark: How to test](#white_check_mark-how-to-test)
 - [:v: Contribute](#v-contribute)
 - [:bug: Bugs and Issues](#bug-bugs-and-issues)
-- [:page_facing_up: License](#page_facing_up-license)
-- [:green_heart: Code of conduct](#green_heart-code-of-conduct)
+- [:page\_facing\_up: License](#page_facing_up-license)
+- [:green\_heart: Code of conduct](#green_heart-code-of-conduct)
 
 # :star: Introduction
 

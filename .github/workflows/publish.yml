@@ -1,0 +1,42 @@
+name: "Publish"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: release-please-action
+        uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: node
+          package-name: deven-documentation-skeleton
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Setup node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{env.NODE_VERSION}}
+          cache: npm
+          registry-url: "https://npm.pkg.github.com"
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        if: ${{ steps.release.outputs.release_created }}
