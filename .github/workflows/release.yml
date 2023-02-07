@@ -55,6 +55,7 @@ jobs:
         with:
           payload: |
             {
+              "package": "@deven-org/documentation-skeleton",
               "status": "${{ job.status }}",
               "head_commit": "${{github.event.head_commit.url }}",
               "pr_url": "${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
