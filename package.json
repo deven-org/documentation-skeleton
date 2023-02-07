@@ -1,6 +1,6 @@
 {
   "name": "@deven-org/documentation-skeleton",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "@deven-org/documentation-skeleton is built to work with NodeJS. It clones the deven's documentation skeleton in your project, provides information about the documentation coverage and help to you identify and clone the missing chapters.",
   "source": "src/index.ts",
   "main": "dist/main.js",
