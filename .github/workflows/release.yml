@@ -37,11 +37,6 @@ jobs:
         run: npm ci
       - name: Run test
         run: npm run test:coverage
-      - name: NPM Publish
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        if: ${{ steps.release.outputs.release_created }}
       - name: Create new release
         uses: google-github-actions/release-please-action@v3
         id: release
@@ -49,6 +44,11 @@ jobs:
           release-type: node
           package-name: "@deven-org/documentation-skeleton"
           token: ${{secrets.GITHUB_TOKEN}}
+      - name: NPM Publish
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        if: ${{ steps.release.outputs.release_created }}
       - name: Notify new release to Slack
         id: slack
         uses: slackapi/slack-github-action@v1.23.0
@@ -65,3 +65,4 @@ jobs:
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: ${{ steps.release.outputs.release_created }}
