@@ -1,7 +1,0 @@
-{
-  "name": "Publish",
-  "description": "Publish the package to NPM",
-  "iconName": "octicon repo-push",
-  "categories": ["Automation", "Deployment"],
-  "labels": ["Automation"]
-}
