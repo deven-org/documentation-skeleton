@@ -5,6 +5,13 @@
 
 * add husky hooks and imrove test coverage ([caeff1a](https://git.sinnerschrader.com/deven/documentation-skeleton/commit/caeff1a11f517fb520cd1dff08bb516f77196d07))
 
+## [1.3.0](https://github.com/deven-org/documentation-skeleton/compare/v1.2.0...v1.3.0) (2023-02-07)
+
+
+### Features
+
+* **workflow:** add package name and fix branch name ([bac60a1](https://github.com/deven-org/documentation-skeleton/commit/bac60a16682d58a91534387c430cb7c4ab4e5a34))
+
 ## [1.2.0](https://github.com/deven-org/documentation-skeleton/compare/v1.1.0...v1.2.0) (2023-02-07)
 
 
