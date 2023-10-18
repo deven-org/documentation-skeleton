@@ -27,7 +27,10 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:dev": "jest --watch",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "self:install": "node bin/index.js install",
+    "self:update": "node bin/index.js update",
+    "self:check": "node bin/index.js check"
   },
   "repository": {
     "type": "git",
