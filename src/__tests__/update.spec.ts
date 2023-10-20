@@ -11,7 +11,6 @@ import {
   mockConsoleLog,
 } from "jest-mock-process";
 import { messages } from "../shared/messages";
-import { version } from "prettier";
 
 let mockExit: jest.SpyInstance;
 let mockStdout: jest.SpyInstance;

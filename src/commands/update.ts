@@ -68,6 +68,9 @@ export class Update extends Command {
     if (!this.existsConfigFile) {
       logger.error(messages.update.configFileNotExist.message);
       process.exit(1);
+      // Although this code is unreachable, it's currently required for test execution,
+      // because the mock for process.exit does not stop code execution.
+      // TODO: reconfigure mock so that tests can be executed without this additional return value.
       return false;
     }
 
@@ -77,6 +80,9 @@ export class Update extends Command {
     if (semverCompare(this.packageVersion, configFile.version) <= 0) {
       logger.info(messages.update.versionNotUpdated);
       process.exit(0);
+      // Although this code is unreachable, it's currently required for test execution,
+      // because the mock for process.exit does not stop code execution.
+      // TODO: reconfigure mock so that tests can be executed without this additional return value.
       return false;
     }
     configFile.version = this.packageVersion;
