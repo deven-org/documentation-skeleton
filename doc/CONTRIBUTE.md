@@ -3,9 +3,8 @@
 Thank you for investing your time in contributing to our project! We sincerely appreciate it. :sparkles:.
 Please, read our [Code of Conduct](./CODEOFCONDUCT.md) to keep our community approachable and respectable.
 
-## Chapters
+## Content
 
-- [Chapters](#chapters)
 - [New contributor guide](#new-contributor-guide)
 - [Getting started](#getting-started)
   - [:file_folder: File Structure](#file_folder-file-structure)
