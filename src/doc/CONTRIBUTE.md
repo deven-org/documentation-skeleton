@@ -4,7 +4,7 @@
 This chapter should display all needed information to set up and run the project and how a new joiner can start contributing to the it. Please provide a short introduction here.
 -->
 
-## Chapters
+## Content
 
 - [Contribute](#contribute)
   - [Prerequisites](#prerequisites)
