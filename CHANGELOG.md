@@ -5,6 +5,19 @@
 
 * add husky hooks and imrove test coverage ([caeff1a](https://git.sinnerschrader.com/deven/documentation-skeleton/commit/caeff1a11f517fb520cd1dff08bb516f77196d07))
 
+## [1.4.0](https://github.com/deven-org/documentation-skeleton/compare/v1.3.0...v1.4.0) (2023-10-20)
+
+
+### Features
+
+* add scripts to apply documentation-skeleton to itself ([5fa20fb](https://github.com/deven-org/documentation-skeleton/commit/5fa20fb52759b8fe095a8617995c16e4dc5ad496))
+
+
+### Bug Fixes
+
+* align naming of toc ([a7cf154](https://github.com/deven-org/documentation-skeleton/commit/a7cf15485ba0dc106be7f224cd64b87720920614))
+* comment out documentation hints ([a0fd051](https://github.com/deven-org/documentation-skeleton/commit/a0fd0510f9da34b598ffb803bfa67d70bc7bcbca))
+
 ## [1.3.0](https://github.com/deven-org/documentation-skeleton/compare/v1.2.0...v1.3.0) (2023-02-07)
 
 
