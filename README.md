@@ -72,17 +72,42 @@ The purpose of this "documentation skeleton" project is to provide a simple way 
 
 ## Installation
 
-Install the package in your project:
+To install the package in your project follow these steps:
 
-```bash
-npm install deven-documentation-skeleton --save-dev
-```
+1. add the Github registry for the @deven-org scope:
 
-or
+    ```bash
+    npm config set @deven-org:registry=https://npm.pkg.github.com/ --location project
+    ```
 
-```bash
-yarn add deven-documentation-skeleton --dev
-```
+2. authenticate towards the Github registry (if you are not already):
+
+    1. create a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
+
+        * we recommend to use the "classic" token interface
+        * minimum scope that needs to be set is `read:packages`
+
+    2. login to the Github registry
+        * with npm
+            ```bash
+            npm login --scope=@deven-org --registry=https://npm.pkg.github.com/
+            ```
+
+        * with yarn
+            ```bash
+            yarn npm login --scope my-scope
+            ```
+
+3. install the package:
+    * with npm
+        ```bash
+        npm install @deven-org/documentation-skeleton --save-dev
+        ```
+
+    * with yarn
+        ```bash
+        yarn add @deven-org/documentation-skeleton --dev
+        ```
 
 Add the following entries to your `package.json` scripts section:
 
