@@ -12,7 +12,6 @@ env:
 permissions:
   contents: write
   pull-requests: write
-  packages: write
 
 jobs:
   Build-and-Release:
@@ -47,7 +46,7 @@ jobs:
       - name: NPM Publish
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         if: ${{ steps.release.outputs.release_created }}
       - name: Notify new release to Slack
         id: slack
