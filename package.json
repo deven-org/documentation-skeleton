@@ -36,9 +36,6 @@
     "type": "git",
     "url": "https://github.com/deven-org/documentation-skeleton.git"
   },
-  "publishConfig": {
-    "@deven-org:registry": "https://npm.pkg.github.com"
-  },
   "keywords": [
     "deven",
     "documentation"
