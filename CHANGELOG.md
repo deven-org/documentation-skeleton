@@ -1,9 +1,10 @@
-# [1.5.0](https://git.sinnerschrader.com/deven/documentation-skeleton/compare/v1.4.1...v1.5.0) (2022-10-28)
+## [2.1.1](https://github.com/deven-org/documentation-skeleton/compare/v1.20..v2.1.1) (2024-02-05)
 
 
-### Features
+### Miscellaneous Chores
 
-* add husky hooks and imrove test coverage ([caeff1a](https://git.sinnerschrader.com/deven/documentation-skeleton/commit/caeff1a11f517fb520cd1dff08bb516f77196d07))
+* doc: add information about package move ([707b1eb](https://github.com/deven-org/documentation-skeleton/commit/707b1eb5afc8fe4e21b8480942dac3780d27a141))
+* docs: improve install documentation ([cf9a3dc](https://github.com/deven-org/documentation-skeleton/commit/cf9a3dc0c2c5d0bff5e5e6a052bd34c68d093aa2))
 
 ## [2.1.0](https://github.com/deven-org/documentation-skeleton/compare/v1.4.0...v2.1.0) (2023-11-14)
 
@@ -11,6 +12,13 @@
 ### Miscellaneous Chores
 
 * release 2.1.0 ([08c6a02](https://github.com/deven-org/documentation-skeleton/commit/08c6a0209f4920cee10b6d1f8cfc503937087927))
+
+## [1.5.0](https://git.sinnerschrader.com/deven/documentation-skeleton/compare/v1.4.1...v1.5.0) (2022-10-28)
+
+
+### Features
+
+* add husky hooks and imrove test coverage ([caeff1a](https://git.sinnerschrader.com/deven/documentation-skeleton/commit/caeff1a11f517fb520cd1dff08bb516f77196d07))
 
 ## [1.4.0](https://github.com/deven-org/documentation-skeleton/compare/v1.3.0...v1.4.0) (2023-10-20)
 
