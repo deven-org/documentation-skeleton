@@ -5,10 +5,26 @@ import Table from "cli-table3";
 import semverCompare from "semver-compare";
 
 import { logger } from "../Logger";
-import { messages } from "../shared/messages";
+import { Message, messages } from "../shared/messages";
 import { Command } from "./command";
 
 export class Update extends Command {
+  private renameFile(
+    oldFileName: string,
+    newFileName: string,
+    loggerMessage: Message
+  ): void {
+    const oldFilePath = this.getDocsFilePath(oldFileName);
+
+    if (!fs.existsSync(oldFilePath)) {
+      return;
+    }
+
+    fs.renameSync(oldFilePath, this.getDocsFilePath(newFileName));
+
+    logger.info(loggerMessage);
+  }
+
   public preliminaryCheck(): void {
     if (this.existsConfigFile) {
       logger.info(messages.check.checkConfigExists);
@@ -16,11 +32,54 @@ export class Update extends Command {
       logger.error(messages.check.checkConfigNotExists);
       process.exit(1);
     }
+
+    if (this.existsOutdatedDocFolder) {
+      logger.info(messages.check.checkOutdatedFolderExist);
+      if (this.existsDocsFolder) {
+        logger.error(messages.update.outdatedDocFolderCannotBeRenamed);
+        process.exit(1);
+      }
+    } else {
+      logger.info(messages.check.checkOutdatedFolderNotExist);
+    }
+  }
+
+  public updateOutdatedFolderName() {
+    if (!this.existsOutdatedDocFolder) {
+      return;
+    }
+
+    fs.renameSync(this.outdatedDocPath, this.docsPath);
+    logger.info(messages.update.renamedOutdatedDocFolderToDocs);
+  }
+
+  public updateOutdatedFileNames() {
+    const filesToRename = [
+      {
+        old: "CODEOFCONDUCT.md",
+        new: "CODE_OF_CONDUCT.md",
+        message: messages.update.renamedCodeOfConduct,
+      },
+      {
+        old: "GETSTARTED.md",
+        new: "GET_STARTED.md",
+        message: messages.update.renamedGetStarted,
+      },
+      {
+        old: "PROJECTBACKGROUND.md",
+        new: "PROJECT_BACKGROUND.md",
+        message: messages.update.renamedProjectBackground,
+      },
+    ];
+
+    filesToRename.forEach((file) => {
+      this.renameFile(file.old, file.new, file.message);
+    });
   }
 
   public updateChapters() {
-    if (!this.existsDocFolder) {
-      fs.mkdirSync(this.docPath);
+    if (!this.existsDocsFolder) {
+      fs.mkdirSync(this.docsPath);
     }
 
     if (!this.existsReadme) {
@@ -28,8 +87,8 @@ export class Update extends Command {
       logger.info(messages.install.readmeCloneSuccesful);
     }
 
-    const missingFiles = this.docSourceFiles.filter(
-      (value) => !this.docFiles.includes(value)
+    const missingFiles = this.docsSourceFiles.filter(
+      (value) => !this.docsFiles.includes(value)
     );
 
     if (missingFiles.length === 0) {
@@ -39,8 +98,8 @@ export class Update extends Command {
 
     missingFiles.forEach((m) => {
       fs.copyFileSync(
-        path.join(this.docSourcePath, m),
-        path.join(this.docPath, m)
+        path.join(this.docsSourcePath, m),
+        path.join(this.docsPath, m)
       );
     });
 
@@ -53,7 +112,7 @@ export class Update extends Command {
     missingFiles.forEach((f) => {
       table.push([
         f.replace(".md", ""),
-        this.docFiles.includes(f)
+        this.docsFiles.includes(f)
           ? chalk.green(`Copied`)
           : chalk.red("Not copied"),
       ]);
@@ -93,6 +152,8 @@ export class Update extends Command {
 
   public run() {
     this.preliminaryCheck();
+    this.updateOutdatedFolderName();
+    this.updateOutdatedFileNames();
     this.updateChapters();
     this.updateConfigFile();
     process.exit(0);
