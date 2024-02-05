@@ -12,7 +12,7 @@ export class Install extends Command {
       process.exit(1);
     }
 
-    if (this.existsDocFolder && this.existsBackupDocFolder) {
+    if (this.existsDocsFolder && this.existsBackupDocsFolder) {
       logger.error(messages.install.checkFolderExist);
       console.log("");
       process.exit(1);
@@ -40,26 +40,26 @@ export class Install extends Command {
     }
   }
 
-  public backupDocFolder(): void {
-    if (!this.existsDocFolder) {
+  public backupDocsFolder(): void {
+    if (!this.existsDocsFolder) {
       return;
     }
 
-    if (this.existsBackupDocFolder) {
+    if (this.existsBackupDocsFolder) {
       logger.error(messages.install.backupFolderExists.message);
       process.exit(1);
     }
 
-    fs.renameSync(this.docPath, this.docBackupPath);
+    fs.renameSync(this.docsPath, this.docsBackupPath);
 
     logger.info(messages.install.backupSuccesful);
   }
 
-  public cloneDocFolder = (): void => {
-    if (this.existsDocFolder) {
-      throw Error(messages.install.docFolderExists.message);
+  public cloneDocsFolder = (): void => {
+    if (this.existsDocsFolder) {
+      throw Error(messages.install.docsFolderExists.message);
     }
-    fs.copySync(this.docSourcePath, this.docPath);
+    fs.copySync(this.docsSourcePath, this.docsPath);
     logger.info(messages.install.cloneSuccesful);
   };
 
@@ -104,9 +104,9 @@ export class Install extends Command {
 
   public async run() {
     await this.preliminaryCheck();
-    this.backupDocFolder();
+    this.backupDocsFolder();
 
-    this.cloneDocFolder();
+    this.cloneDocsFolder();
     this.createsConfigFile();
     this.backupReadme();
     this.cloneReadme();

@@ -2,7 +2,6 @@ import * as path from "path";
 import * as fs from "fs-extra";
 import { configuration } from "../shared/configuration";
 import { Command } from "../commands/command";
-import { logger } from "../Logger";
 import mockFs from "mock-fs";
 import {
   mockProcessExit,
@@ -10,8 +9,6 @@ import {
   mockProcessStderr,
   mockConsoleLog,
 } from "jest-mock-process";
-import { messages } from "../shared/messages";
-import chalk from "chalk";
 
 let mockExit: jest.SpyInstance;
 let mockStdout: jest.SpyInstance;
@@ -34,7 +31,7 @@ describe("deven-cli", () => {
     mockLog = mockConsoleLog();
     mockFs({
       fake_test_folder: {},
-      "src/doc": mockFs.load(path.resolve("src/doc"), {
+      "src/docs": mockFs.load(path.resolve("src/docs"), {
         lazy: false,
       }),
       "src/root": mockFs.load(path.resolve("src/root"), {
@@ -50,14 +47,24 @@ describe("deven-cli", () => {
   });
 
   describe("command", () => {
-    it("provides the right doc path (<root>/doc)", async () => {
-      expect(command.docPath).toBe("fake_test_folder/doc");
+    it("getDocsFilePath returns the correct path", async () => {
+      expect(command.getDocsFilePath("test.md")).toBe(
+        "fake_test_folder/docs/test.md"
+      );
+    }),
+      it("provides the right docs path (<root>/docs)", async () => {
+        expect(command.docsPath).toBe("fake_test_folder/docs");
+      });
+    it("provides the right outdated doc path (<root>/doc)", async () => {
+      expect(command.outdatedDocPath).toBe("fake_test_folder/doc");
     });
     it("provides the right readme path (<root>/README.md)", async () => {
       expect(command.readmePath).toBe("fake_test_folder/README.md");
     });
-    it("provides the right doc backup path (<root>/_doc)", async () => {
-      expect(command.docBackupPath).toBe("fake_test_folder/_doc");
+    it("provides the right docs backup path (<root>/_docs_backup_please_rename)", async () => {
+      expect(command.docsBackupPath).toBe(
+        "fake_test_folder/_docs_backup_please_rename"
+      );
     });
     it("provides the right readme backup path (<root>/_README)", async () => {
       expect(command.readmeBackupPath).toBe("fake_test_folder/_README.md");
@@ -77,18 +84,25 @@ describe("deven-cli", () => {
       fs.writeFileSync(command.configFilePath, "");
       expect(command.existsConfigFile).toBeTruthy();
     });
+    it("return false when the outdated doc folder doesn't exist", async () => {
+      expect(command.existsOutdatedDocFolder).toBeFalsy();
+    });
+    it("return true when the outdated doc folder exists", async () => {
+      fs.mkdirSync(command.outdatedDocPath);
+      expect(command.existsOutdatedDocFolder).toBeTruthy();
+    });
     it("return the list of all the available chapters (except the readme)", async () => {
-      expect(command.docSourceFiles.length).toBe(8);
+      expect(command.docsSourceFiles.length).toBe(8);
     });
     it("return the list of all local chapters (except the readme)", async () => {
-      fs.copySync(command.docSourcePath, command.docPath);
-      expect(command.docFiles.length).toBe(8);
+      fs.copySync(command.docsSourcePath, command.docsPath);
+      expect(command.docsFiles.length).toBe(8);
     });
     it("return the list of all the chapters", async () => {
-      fs.copySync(command.docSourcePath, command.docPath);
+      fs.copySync(command.docsSourcePath, command.docsPath);
       expect(command.coverage).toBe(100);
-      fs.rmSync(path.join(command.docPath, "CONTRIBUTE.md"));
-      fs.rmSync(path.join(command.docPath, "TESTING.md"));
+      fs.rmSync(path.join(command.docsPath, "CONTRIBUTE.md"));
+      fs.rmSync(path.join(command.docsPath, "TESTING.md"));
       expect(command.coverage).toBe(75);
     });
   });

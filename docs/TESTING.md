@@ -54,7 +54,7 @@ beforeEach(() => {
   mockLog = mockConsoleLog();
   mockFs({
     fake_test_folder: {},
-    "src/doc": mockFs.load(path.resolve("src/doc"), {
+    "src/docs": mockFs.load(path.resolve("src/docs"), {
       lazy: false,
     }),
     "src/root": mockFs.load(path.resolve("src/root"), {

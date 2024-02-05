@@ -36,7 +36,7 @@ describe("deven-cli", () => {
     mockLog = mockConsoleLog();
     mockFs({
       fake_test_folder: {},
-      "src/doc": mockFs.load(path.resolve("src/doc"), {
+      "src/docs": mockFs.load(path.resolve("src/docs"), {
         lazy: false,
       }),
       "src/root": mockFs.load(path.resolve("src/root"), {
@@ -54,16 +54,16 @@ describe("deven-cli", () => {
 
   describe("install", () => {
     it("renames the folder if it already exists during the installation", async () => {
-      fs.writeFileSync(install.docPath, "");
+      fs.writeFileSync(install.docsPath, "");
       await install.run();
-      expect(fs.existsSync(install.docBackupPath)).toBeTruthy();
+      expect(fs.existsSync(install.docsBackupPath)).toBeTruthy();
     });
 
-    it("clones the source doc folder into the destination doc folder", async () => {
+    it("clones the source docs folder into the destination docs folder", async () => {
       await install.run();
-      expect(fs.existsSync(install.docPath)).toBeTruthy();
-      expect(JSON.stringify(fs.readdirSync(install.docPath))).toBe(
-        JSON.stringify(fs.readdirSync(install.docSourcePath))
+      expect(fs.existsSync(install.docsPath)).toBeTruthy();
+      expect(JSON.stringify(fs.readdirSync(install.docsPath))).toBe(
+        JSON.stringify(fs.readdirSync(install.docsSourcePath))
       );
     });
 
@@ -84,9 +84,9 @@ describe("deven-cli", () => {
       expect(error).toHaveBeenCalled();
     });
 
-    it("fails the preliminary check because the doc and doc backup folder exist", async () => {
-      fs.mkdirSync(install.docPath);
-      fs.mkdirSync(install.docBackupPath);
+    it("fails the preliminary check because the docs and docs backup folder exist", async () => {
+      fs.mkdirSync(install.docsPath);
+      fs.mkdirSync(install.docsBackupPath);
       const error = jest.spyOn(logger, "error");
       await install.run();
       expect(error).toHaveBeenCalledWith(messages.install.checkFolderExist);
