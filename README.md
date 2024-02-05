@@ -4,7 +4,7 @@
 
 [![Issues](https://img.shields.io/github/issues-raw/deven-org/documentation-skeleton.svg?maxAge=25000)](https://github.com/deven-org/documentation-skeleton/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/deven-org/documentation-skeleton.svg?style=flat)](https://github.com/deven-org/documentation-skeleton/pulls)
-[![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/deven-org/documentation-skeleton/blob/main/doc/CODEOFCONDUCT.md)  
+[![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/deven-org/documentation-skeleton/blob/main/doc/CODE_OF_CONDUCT.md)  
 [![GitHub contributors](https://img.shields.io/github/contributors/deven-org/documentation-skeleton.svg?style=flat)](https://github.com/deven-org/documentation-skeleton/)
 ![Coverage](https://img.shields.io/badge/Code%20Coverage-83%25-success?style=flat)
 
@@ -13,21 +13,21 @@
 ## :information_source: Table of contents
 
 - [Deven Documentation Skeleton](#deven-documentation-skeleton)
-  - [:information\_source: Table of contents](#information_source-table-of-contents)
+  - [:information_source: Table of contents](#information_source-table-of-contents)
 - [:star: Introduction](#star-introduction)
   - [Goals](#goals)
-  - [:file\_folder: Documentation Structure](#file_folder-documentation-structure)
+  - [:file_folder: Documentation Structure](#file_folder-documentation-structure)
   - [Requirements](#requirements)
   - [Installation](#installation)
   - [:rocket: How to use it](#rocket-how-to-use-it)
     - [1. Install](#1-install)
     - [2. Check](#2-check)
     - [3. Update](#3-update)
-- [:white\_check\_mark: How to test](#white_check_mark-how-to-test)
+- [:white_check_mark: How to test](#white_check_mark-how-to-test)
 - [:v: Contribute](#v-contribute)
 - [:bug: Bugs and Issues](#bug-bugs-and-issues)
-- [:page\_facing\_up: License](#page_facing_up-license)
-- [:green\_heart: Code of conduct](#green_heart-code-of-conduct)
+- [:page_facing_up: License](#page_facing_up-license)
+- [:green_heart: Code of conduct](#green_heart-code-of-conduct)
 
 # :star: Introduction
 
@@ -46,15 +46,15 @@ The purpose of this "documentation skeleton" project is to provide a simple way 
 ## :file_folder: Documentation Structure
 
     .
-    └── src/doc
+    └── src/docs
         └── README.md
         └── ARCHITECTURE.md
-        └── CODEOFCONDUCT.md
+        └── CODE_OF_CONDUCT.md
         └── CONTRIBUTE.md
         └── DEPLOYMENT.md
-        └── GETSTARTED.md
+        └── GET_STARTED.md
         └── GLOSSARY.md
-        └── PROJECTBACKGROUND.md
+        └── PROJECT_BACKGROUND.md
         └── TESTING.md
 
 ## Requirements
@@ -75,10 +75,11 @@ The purpose of this "documentation skeleton" project is to provide a simple way 
 To install the package in your project follow these steps:
 
 install the package:
-  
+
 ```bash
 npm install @deven-org/documentation-skeleton --save-dev
 ```
+
 or
 
 ```bash
@@ -115,11 +116,11 @@ yarn doc:install
 <summary>What to expect?</summary>
 <br />
 
-First of all a new folder will be created (`./doc`) containing all the skeleton chapters.
+First of all a new folder will be created (`./docs`) containing all the skeleton chapters.
 Then it will be generated a config (`./.deven-skeleton-install.config`) which will track the installed version.
 
-If the `./doc` folder exists already, it will be renamed to `./_doc` and a new `doc` folder will be generated.
-If both the `doc` folder and the `_doc` folder are existing, the script won't proceed until you don't delete one of them.
+If the `./docs` folder exists already, it will be renamed to `./_docs_backup_please_rename` and a new `docs` folder will be generated.
+If both the `docs` folder and the `_docs_backup_please_rename` folder are existing, the script won't proceed until you don't delete one of them.
 
 If the `./.deven-skeleton-install.config` is already existing, the script will just stop. It means that the documentation skeleton has been already succesfully installed and there's no need to proceed with a new installation.
 
@@ -144,7 +145,7 @@ yarn doc:check
 <br />
 
 The tool will show the `diff` between the skeleton chapters and the chapters located in the local documentation folder.
-If other files have been added to the `doc` folder, they will be ignored.
+If other files have been added to the `docs` folder, they will be ignored.
 
 The content of the chapters won't be analysed nor considered for this report.
 
@@ -152,7 +153,10 @@ The content of the chapters won't be analysed nor considered for this report.
 
 ### 3. Update
 
-In case one or more chapters are missing in the local documentation folder, the command `update` will clone them into the `doc` folder.
+In case a previous version that used the `doc` folder instead of `docs`, the command `update` will try to rename the folder if no other `docs` folder already exists. Otherwise an error will be shown and the process will be aborted.  
+Furthermore some of the files will be renamed: `CODEOFCONDUCT.md` to `CODE_OF_CONDUCT.md`, `GETSTARTED.md` to `GET_STARTED.md` and `PROJECTBACKGROUND.md` to `PROJECT_BACKGROUND.md`.
+
+In case one or more chapters are missing in the local documentation folder, the command `update` will clone them into the `docs` folder.
 
 ```bash
 npm run doc:update
@@ -180,16 +184,16 @@ If the local version is greater than the one of the installed packaged, the scri
 
 # :white_check_mark: How to test
 
-[Read more](./doc/TESTING.md)
+[Read more](./docs/TESTING.md)
 
 # :v: Contribute
 
-[Read more](./doc/CONTRIBUTE.md)
+[Read more](./docs/CONTRIBUTE.md)
 
 # :bug: Bugs and Issues
 
 If you would like to open an issue, you can gladly use [this page](https://git.sinnerschrader.com/deven/documentation-skeleton/-/issues).
-But please, have a look at the [Contribute](./doc/CONTRIBUTE.md) page before filing a bug.
+But please, have a look at the [Contribute](./docs/CONTRIBUTE.md) page before filing a bug.
 
 # :page_facing_up: License
 
@@ -197,4 +201,4 @@ But please, have a look at the [Contribute](./doc/CONTRIBUTE.md) page before fil
 
 # :green_heart: Code of conduct
 
-You can find the [Code of Conduct here](./doc/CODEOFCONDUCT.md)
+You can find the [Code of Conduct here](./docs/CODE_OF_CONDUCT.md)

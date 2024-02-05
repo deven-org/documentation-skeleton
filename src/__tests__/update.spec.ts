@@ -25,6 +25,7 @@ describe("deven-cli", () => {
     mockStdout.mockRestore();
     mockStderr.mockRestore();
     mockLog.mockRestore();
+    jest.clearAllMocks();
   });
   beforeEach(() => {
     mockExit = mockProcessExit();
@@ -33,7 +34,7 @@ describe("deven-cli", () => {
     mockLog = mockConsoleLog();
     mockFs({
       fake_test_folder: {},
-      "src/doc": mockFs.load(path.resolve("src/doc"), {
+      "src/docs": mockFs.load(path.resolve("src/docs"), {
         lazy: false,
       }),
       "src/root": mockFs.load(path.resolve("src/root"), {
@@ -61,50 +62,130 @@ describe("deven-cli", () => {
       expect(error).toHaveBeenCalledWith(messages.check.checkConfigNotExists);
       expect(mockExit).toHaveBeenLastCalledWith(1);
     });
+    it("shows a message if the outdated doc folder has been found", async () => {
+      fs.mkdirSync(update.outdatedDocPath);
+      const info = jest.spyOn(logger, "info");
+      update.preliminaryCheck();
+      expect(info).toHaveBeenCalledWith(
+        messages.check.checkOutdatedFolderExist
+      );
+    });
+    it("shows a positive message if the outdated doc folder has not been found", async () => {
+      const info = jest.spyOn(logger, "info");
+      update.preliminaryCheck();
+      expect(info).toHaveBeenCalledWith(
+        messages.check.checkOutdatedFolderNotExist
+      );
+    });
+    it("shows an error message if both the outdated doc and a docs folder exist", async () => {
+      fs.writeFileSync(update.configFilePath, "");
+      fs.mkdirSync(update.outdatedDocPath);
+      fs.mkdirSync(update.docsPath);
+      const error = jest.spyOn(logger, "error");
+      update.preliminaryCheck();
+      expect(error).toHaveBeenCalledWith(
+        messages.update.outdatedDocFolderCannotBeRenamed
+      );
+      expect(mockExit).toHaveBeenLastCalledWith(1);
+    });
+
+    it("returns if no outdated doc folder exists", async () => {
+      const info = jest.spyOn(logger, "info");
+      update.updateOutdatedFolderName();
+      expect(info).toHaveBeenCalledTimes(0);
+    });
+    it("shows a message after renaming the outdated doc folder to docs", async () => {
+      fs.mkdirSync(update.outdatedDocPath);
+      const info = jest.spyOn(logger, "info");
+      update.updateOutdatedFolderName();
+      expect(info).toHaveBeenCalledWith(
+        messages.update.renamedOutdatedDocFolderToDocs
+      );
+      expect(fs.existsSync(update.docsPath)).toBeTruthy();
+      expect(fs.existsSync(update.outdatedDocPath)).toBeFalsy();
+    });
+
+    it("shows a message after renaming the CODEOFCONDUCT.md file to CODE_OF_CONDUCT.md", async () => {
+      fs.mkdir(update.docsPath);
+      fs.writeFileSync(path.join(update.docsPath, "CODEOFCONDUCT.md"), "");
+      const info = jest.spyOn(logger, "info");
+      update.updateOutdatedFileNames();
+      expect(info).toHaveBeenCalledWith(messages.update.renamedCodeOfConduct);
+      expect(
+        fs.existsSync(path.join(update.docsPath, "CODE_OF_CONDUCT.md"))
+      ).toBeTruthy();
+      expect(
+        fs.existsSync(path.join(update.docsPath, "CODEOFCONDUCT.md"))
+      ).toBeFalsy();
+    });
+    it("shows a message after renaming the GETSTARTED.md file to GET_STARTED.md", async () => {
+      fs.mkdir(update.docsPath);
+      fs.writeFileSync(path.join(update.docsPath, "GETSTARTED.md"), "");
+      const info = jest.spyOn(logger, "info");
+      update.updateOutdatedFileNames();
+      expect(info).toHaveBeenCalledWith(messages.update.renamedGetStarted);
+      expect(
+        fs.existsSync(path.join(update.docsPath, "GET_STARTED.md"))
+      ).toBeTruthy();
+      expect(
+        fs.existsSync(path.join(update.docsPath, "GETSTARTED.md"))
+      ).toBeFalsy();
+    });
+    it("shows a message after renaming the PROJECTBACKGROUND.md file to PROJECT_BACKGROUND.md", async () => {
+      fs.mkdir(update.docsPath);
+      fs.writeFileSync(path.join(update.docsPath, "PROJECTBACKGROUND.md"), "");
+      const info = jest.spyOn(logger, "info");
+      update.updateOutdatedFileNames();
+      expect(info).toHaveBeenCalledWith(
+        messages.update.renamedProjectBackground
+      );
+      expect(
+        fs.existsSync(path.join(update.docsPath, "PROJECT_BACKGROUND.md"))
+      ).toBeTruthy();
+      expect(
+        fs.existsSync(path.join(update.docsPath, "PROJECTBACKGROUND.md"))
+      ).toBeFalsy();
+    });
 
     it("shows a positive message after the chapters update, when the readme exists", async () => {
-      fs.mkdirSync(update.docPath);
+      fs.mkdirSync(update.docsPath);
       fs.writeFileSync(update.readmePath, "");
       fs.writeFileSync(update.configFilePath, "");
       const success = jest.spyOn(logger, "success");
       update.updateChapters();
       expect(success).toHaveBeenCalledWith(messages.update.updated);
     });
-
     it("shows a positive message after the chapters update, when the readme does not exist", async () => {
-      fs.mkdirSync(update.docPath);
+      fs.mkdirSync(update.docsPath);
       fs.writeFileSync(update.configFilePath, "");
-      fs.copySync(update.docSourcePath, update.docPath);
+      fs.copySync(update.docsSourcePath, update.docsPath);
       const success = jest.spyOn(logger, "info");
       update.updateChapters();
       expect(success).toHaveBeenCalledWith(messages.update.alreadyUpdated);
     });
-
     it("shows an info message if all the chapters are already installed", async () => {
-      fs.mkdirSync(update.docPath);
+      fs.mkdirSync(update.docsPath);
       fs.writeFileSync(update.configFilePath, "");
       const success = jest.spyOn(logger, "success");
       update.updateChapters();
       expect(success).toHaveBeenCalledWith(messages.update.updated);
     });
-
-    it("copies the missing files into the doc folder", async () => {
-      fs.mkdirSync(update.docPath);
+    it("copies the missing files into the docs folder", async () => {
+      fs.mkdirSync(update.docsPath);
       fs.writeFileSync(update.readmePath, "");
       fs.writeFileSync(update.configFilePath, "");
       update.updateChapters();
-      expect(update.docFiles.length).toBe(update.docSourceFiles.length);
+      expect(update.docsFiles.length).toBe(update.docsSourceFiles.length);
     });
-
-    it("creates the doc folder and copies the missing files into it", async () => {
+    it("creates the docs folder and copies the missing files into it", async () => {
       fs.writeFileSync(update.readmePath, "");
       fs.writeFileSync(update.configFilePath, "");
       update.updateChapters();
-      expect(update.docFiles.length).toBe(update.docSourceFiles.length);
+      expect(update.docsFiles.length).toBe(update.docsSourceFiles.length);
     });
 
     it("updates the version in the config file ", async () => {
-      fs.mkdirSync(update.docPath);
+      fs.mkdirSync(update.docsPath);
       fs.writeFileSync(update.readmePath, "");
       const configFile = JSON.parse(
         fs.readFileSync(update.configFileSourcePath, {
@@ -129,9 +210,8 @@ describe("deven-cli", () => {
         ).version
       ).toBe(update.packageVersion);
     });
-
     it("updates the version in the config file ", async () => {
-      fs.mkdirSync(update.docPath);
+      fs.mkdirSync(update.docsPath);
       fs.writeFileSync(update.readmePath, "");
       update.packageVersion = "10.0.0";
       const error = jest.spyOn(logger, "error");
@@ -140,9 +220,8 @@ describe("deven-cli", () => {
         messages.update.configFileNotExist.message
       );
     });
-
     it("updates the version in the config file ", async () => {
-      fs.mkdirSync(update.docPath);
+      fs.mkdirSync(update.docsPath);
       fs.writeFileSync(update.readmePath, "");
       const configFile = JSON.parse(
         fs.readFileSync(update.configFileSourcePath, {

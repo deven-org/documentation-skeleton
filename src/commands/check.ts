@@ -14,10 +14,17 @@ export class Check extends Command {
       process.exit(1);
     }
 
-    if (this.existsDocFolder) {
+    if (this.existsDocsFolder) {
       logger.info(messages.check.checkFolderExist);
     } else {
       logger.error(messages.check.checkFolderNotExist);
+      process.exit(1);
+    }
+
+    if (this.existsOutdatedDocFolder) {
+      logger.info(messages.check.checkOutdatedFolderNotExist);
+    } else {
+      logger.error(messages.check.checkOutdatedFolderExist);
       process.exit(1);
     }
 
@@ -30,7 +37,7 @@ export class Check extends Command {
   }
 
   public checkChapters() {
-    console.log(chalk.bold(messages.check.contentDocFolder.message));
+    console.log(chalk.bold(messages.check.contentDocsFolder.message));
     const table = new Table({
       style: { head: ["cyan"] },
       head: [
@@ -40,10 +47,10 @@ export class Check extends Command {
       colWidths: [40],
     });
 
-    this.docSourceFiles.forEach((f) => {
+    this.docsSourceFiles.forEach((f) => {
       table.push([
         f.replace(".md", ""),
-        this.docFiles.includes(f)
+        this.docsFiles.includes(f)
           ? chalk.green(`Found`)
           : chalk.red("Not found"),
       ]);

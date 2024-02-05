@@ -1,7 +1,7 @@
 # Welcome to our docs contributing guide <!-- omit in toc -->
 
 Thank you for investing your time in contributing to our project! We sincerely appreciate it. :sparkles:.
-Please, read our [Code of Conduct](./CODEOFCONDUCT.md) to keep our community approachable and respectable.
+Please, read our [Code of Conduct](./CODE_OF_CONDUCT.md) to keep our community approachable and respectable.
 
 ## Content
 
@@ -9,7 +9,7 @@ Please, read our [Code of Conduct](./CODEOFCONDUCT.md) to keep our community app
 - [Getting started](#getting-started)
   - [:file_folder: File Structure](#file_folder-file-structure)
 - [Issues](#issues)
-    - [Create a new issue](#create-a-new-issue)
+  - [Create a new issue](#create-a-new-issue)
   - [Solve an issue](#solve-an-issue)
     - [Prerequisites](#prerequisites)
     - [Commits](#commits)
@@ -33,7 +33,7 @@ To get an overview of the project, read the [README](../README.md). Here are som
         └── __tests__     // Unit test (*.spec.ts)
         └── commands      // CLI's commands classes
         └── shared        // Global configuration and log messages
-        └── doc           // the documentation skeleton
+        └── docs          // the documentation skeleton
         └── config        // the configuration file blueprint
     └── dist              // build output
     └── bin               // cli entrypoint

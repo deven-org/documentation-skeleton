@@ -26,8 +26,8 @@ describe("messages", () => {
       "The '_README.md' has been found."
     );
   });
-  it("docFolderExists", async () => {
-    expect(stripAnsi(messages.install.docFolderExists.message)).toBe(
+  it("docsFolderExists", async () => {
+    expect(stripAnsi(messages.install.docsFolderExists.message)).toBe(
       "The documentation folder has been found."
     );
   });
@@ -48,7 +48,7 @@ describe("messages", () => {
   });
   it("cloneSuccesful", async () => {
     expect(stripAnsi(messages.install.cloneSuccesful.message)).toBe(
-      "The documentation ('./_doc') has been successfully cloned into your project."
+      "The documentation ('./docs') has been successfully cloned into your project."
     );
   });
   it("readmeCloneSuccesful", async () => {
@@ -58,7 +58,7 @@ describe("messages", () => {
   });
   it("configFileExists", async () => {
     expect(stripAnsi(messages.install.configFileExists.message)).toBe(
-      "The doc folder already exists."
+      "The configuration file already exists."
     );
   });
   it("configFileCreated", async () => {
@@ -73,7 +73,7 @@ describe("messages", () => {
   });
   it("checkFolderExist", async () => {
     expect(stripAnsi(messages.install.checkFolderExist.message)).toContain(
-      "Both the documentation folder ('./doc') and the documentation backup ('./_doc') folder have been found."
+      "Both the documentation folder ('./docs') and the documentation backup ('./_docs_backup_please_rename') folder have been found."
     );
   });
   it("checkReadmeExists", async () => {
@@ -91,6 +91,11 @@ describe("messages", () => {
       "The documentation folder has been found."
     );
   });
+  it("checkOutdatedFolderExist", async () => {
+    expect(stripAnsi(messages.check.checkOutdatedFolderExist.message)).toBe(
+      "The outdated documentation folder has been found."
+    );
+  });
   it("percentage", async () => {
     expect(messages.check.percentage(10)).toEqual({
       prefix: "[check]",
@@ -99,7 +104,12 @@ describe("messages", () => {
   });
   it("checkFolderNotExist", async () => {
     expect(stripAnsi(messages.check.checkFolderNotExist.message)).toBe(
-      "The documentaton folder has been found."
+      "The documentation folder has not been found."
+    );
+  });
+  it("checkOutdatedFolderNotExist", async () => {
+    expect(stripAnsi(messages.check.checkOutdatedFolderNotExist.message)).toBe(
+      "The outdated documentation folder has not been found."
     );
   });
   it("checkConfigNotExists", async () => {
@@ -112,8 +122,8 @@ describe("messages", () => {
       "The 'README.md' file has been found."
     );
   });
-  it("contentDocFolder", async () => {
-    expect(stripAnsi(messages.check.contentDocFolder.message)).toContain(
+  it("contentDocsFolder", async () => {
+    expect(stripAnsi(messages.check.contentDocsFolder.message)).toContain(
       "Content of the documentation folder:"
     );
   });
@@ -134,12 +144,43 @@ describe("messages", () => {
   });
   it("versionNotUpdated", async () => {
     expect(stripAnsi(messages.update.versionNotUpdated.message)).toBe(
-      "The doc version is already the latest available."
+      "The documentation version is already the latest available."
     );
   });
   it("configFileUpdated", async () => {
     expect(stripAnsi(messages.update.configFileUpdated.message)).toBe(
       "The config file has been updated."
+    );
+  });
+  it("checkOutdatedDocFolderCanBeRenamed", async () => {
+    expect(
+      stripAnsi(messages.update.outdatedDocFolderCannotBeRenamed.message)
+    ).toContain(
+      "Both the outdated documentation folder ('./doc') and the designated new documentation folder ('./docs') have been found."
+    );
+  });
+  it("renamedOutdatedDocFolderToDocs", async () => {
+    expect(
+      stripAnsi(messages.update.renamedOutdatedDocFolderToDocs.message)
+    ).toContain(
+      "The documentation folder has been updated from ('./doc') to ('./docs')."
+    );
+  });
+  it("renamedCodeOfConduct", async () => {
+    expect(stripAnsi(messages.update.renamedCodeOfConduct.message)).toContain(
+      "The CODEOFCONDUCT.md file has been renamed to CODE_OF_CONDUCT.md."
+    );
+  });
+  it("renamedProjectBackground", async () => {
+    expect(
+      stripAnsi(messages.update.renamedProjectBackground.message)
+    ).toContain(
+      "The PROJECTBACKGROUND.md file has been renamed to PROJECT_BACKGROUND.md."
+    );
+  });
+  it("renamedGetStarted", async () => {
+    expect(stripAnsi(messages.update.renamedGetStarted.message)).toContain(
+      "The GETSTARTED.md file has been renamed to GET_STARTED.md."
     );
   });
 });

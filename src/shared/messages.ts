@@ -1,5 +1,10 @@
 import chalk from "chalk";
 
+export type Message = {
+  prefix: string;
+  message: string;
+};
+
 export const messages = {
   install: {
     backupFolderExists: {
@@ -20,7 +25,7 @@ export const messages = {
       prefix: "[install]",
       message: `The ${chalk.bold("'_README.md'")} has been found.`,
     },
-    docFolderExists: {
+    docsFolderExists: {
       prefix: "[install]",
       message: `The ${chalk.bold("documentation folder")} has been found.`,
     },
@@ -43,7 +48,7 @@ export const messages = {
     cloneSuccesful: {
       prefix: "[install]",
       message: `The ${chalk.bold("documentation")} ${chalk.italic(
-        "('./_doc')"
+        "('./docs')"
       )} has been successfully cloned into your project.`,
     },
     readmeCloneSuccesful: {
@@ -54,7 +59,7 @@ export const messages = {
     },
     configFileExists: {
       prefix: "[install]",
-      message: `The doc folder already exists.`,
+      message: `The configuration file already exists.`,
     },
     configFileCreated: {
       prefix: "[install]",
@@ -69,9 +74,9 @@ export const messages = {
     checkFolderExist: {
       prefix: "[install]",
       message: `Both the documentation folder ${chalk.italic(
-        "('./doc')"
+        "('./docs')"
       )} and the documentation backup ${chalk.italic(
-        "('./_doc')"
+        "('./_docs_backup_please_rename')"
       )} folder have been found.
       \n In order to continue, you might want to ${chalk.bold(
         "rename or delete at least one of them"
@@ -102,9 +107,21 @@ export const messages = {
       prefix: "[check]",
       message: `The ${chalk.bold("documentation folder")} has been found.`,
     },
+    checkOutdatedFolderExist: {
+      prefix: "[check]",
+      message: `The outdated ${chalk.bold(
+        "documentation folder"
+      )} has been found.`,
+    },
     checkFolderNotExist: {
       prefix: "[check]",
-      message: `The ${chalk.bold("documentaton folder")} has been found.`,
+      message: `The ${chalk.bold("documentation folder")} has not been found.`,
+    },
+    checkOutdatedFolderNotExist: {
+      prefix: "[check]",
+      message: `The outdated ${chalk.bold(
+        "documentation folder"
+      )} has not been found.`,
     },
     checkConfigNotExists: {
       prefix: "[check]",
@@ -121,7 +138,7 @@ export const messages = {
         message: ["The documentation is %d% complete", perc.toString()],
       };
     },
-    contentDocFolder: {
+    contentDocsFolder: {
       message: `\n${chalk.bold("Content of the documentation folder:")}`,
     },
   },
@@ -140,11 +157,51 @@ export const messages = {
     },
     versionNotUpdated: {
       prefix: "[update]",
-      message: `The doc version is already the latest available.`,
+      message: `The documentation version is already the latest available.`,
     },
     configFileUpdated: {
       prefix: "[update]",
       message: `The config file has been updated.`,
+    },
+    outdatedDocFolderCannotBeRenamed: {
+      prefix: "[update]",
+      message: `Both the outdated documentation folder ${chalk.italic(
+        "('./doc')"
+      )} and the designated new documentation folder ${chalk.italic(
+        "('./docs')"
+      )} have been found.
+      In order to continue, you might want to rename or delete the existing ${chalk.italic(
+        "('./docs')"
+      )} folder.
+      Please make sure that it is not used and thus overwritten by some other (e.g. deployment) process.`,
+    },
+    renamedOutdatedDocFolderToDocs: {
+      prefix: "[update]",
+      message: `The documentation folder has been updated from ${chalk.italic(
+        "('./doc')"
+      )} to ${chalk.italic("('./docs')")}.
+      Please make sure to update all links that point to the documentation.`,
+    },
+    renamedCodeOfConduct: {
+      prefix: "[update]",
+      message: `The ${chalk.italic(
+        "CODEOFCONDUCT.md"
+      )} file has been renamed to ${chalk.italic("CODE_OF_CONDUCT.md")}.
+      Please make sure to update all links that point to this file.`,
+    },
+    renamedProjectBackground: {
+      prefix: "[update]",
+      message: `The ${chalk.italic(
+        "PROJECTBACKGROUND.md"
+      )} file has been renamed to ${chalk.italic("PROJECT_BACKGROUND.md")}.
+      Please make sure to update all links that point to this file.`,
+    },
+    renamedGetStarted: {
+      prefix: "[update]",
+      message: `The ${chalk.italic(
+        "GETSTARTED.md"
+      )} file has been renamed to ${chalk.italic("GET_STARTED.md")}.
+      Please make sure to update all links that point to this file.`,
     },
   },
 };

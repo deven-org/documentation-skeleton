@@ -34,7 +34,7 @@ describe("deven-cli", () => {
     mockLog = mockConsoleLog();
     mockFs({
       fake_test_folder: {},
-      "src/doc": mockFs.load(path.resolve("src/doc"), {
+      "src/docs": mockFs.load(path.resolve("src/docs"), {
         lazy: false,
       }),
       "src/root": mockFs.load(path.resolve("src/root"), {
@@ -63,7 +63,7 @@ describe("deven-cli", () => {
       expect(mockExit).toHaveBeenLastCalledWith(1);
     });
     it("shows a positive message if the documentation folder has been found", async () => {
-      fs.mkdirSync(check.docPath);
+      fs.mkdirSync(check.docsPath);
       const info = jest.spyOn(logger, "info");
       check.preliminaryCheck();
       expect(info).toHaveBeenCalledWith(messages.check.checkFolderExist);
@@ -72,6 +72,22 @@ describe("deven-cli", () => {
       const error = jest.spyOn(logger, "error");
       check.preliminaryCheck();
       expect(error).toHaveBeenCalledWith(messages.check.checkFolderNotExist);
+      expect(mockExit).toHaveBeenLastCalledWith(1);
+    });
+    it("shows a positive message if the outdated documentation folder has not been found", async () => {
+      fs.mkdirSync(check.outdatedDocPath);
+      const info = jest.spyOn(logger, "info");
+      check.preliminaryCheck();
+      expect(info).toHaveBeenCalledWith(
+        messages.check.checkOutdatedFolderNotExist
+      );
+    });
+    it("shows an error message if the outdated documentation folder has been found", async () => {
+      const error = jest.spyOn(logger, "error");
+      check.preliminaryCheck();
+      expect(error).toHaveBeenCalledWith(
+        messages.check.checkOutdatedFolderExist
+      );
       expect(mockExit).toHaveBeenLastCalledWith(1);
     });
     it("shows a positive message if the readme file has been found", async () => {
@@ -88,7 +104,7 @@ describe("deven-cli", () => {
     });
 
     it("exit with code 0 if the preliminary checks are truthy", async () => {
-      fs.mkdirSync(check.docPath);
+      fs.mkdirSync(check.docsPath);
       fs.writeFileSync(check.readmePath, "");
       fs.writeFileSync(check.configFilePath, "");
       check.run();
@@ -96,13 +112,13 @@ describe("deven-cli", () => {
     });
 
     it("shows the header message ", async () => {
-      fs.mkdirSync(check.docPath);
+      fs.mkdirSync(check.docsPath);
       fs.writeFileSync(check.readmePath, "");
       fs.writeFileSync(check.configFilePath, "");
       check.checkChapters();
       expect(mockLog).toHaveBeenNthCalledWith(
         1,
-        chalk.bold(messages.check.contentDocFolder.message)
+        chalk.bold(messages.check.contentDocsFolder.message)
       );
     });
   });
