@@ -23,14 +23,17 @@
     "build": "rm -fr dist && microbundle --target node -f umd",
     "dev": "microbundle watch --target node",
     "prettier": "prettier --config .prettierrc.js 'src/**/*.ts' --write",
+    "prettier:check": "prettier --config .prettierrc.js '**/**/*.ts'",
     "lint": "eslint --fix --max-warnings 0 **/*.ts",
+    "lint:check": "eslint --max-warnings 0 **/*.ts",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:dev": "jest --watch",
     "prepublishOnly": "npm run build",
     "self:install": "node bin/index.js install",
     "self:update": "node bin/index.js update",
-    "self:check": "node bin/index.js check"
+    "self:check": "node bin/index.js check",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
