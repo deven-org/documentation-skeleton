@@ -41,12 +41,14 @@ describe("deven-cli", () => {
         lazy: false,
       }),
     });
-    update = new Update({
-      basePath: "fake_test_folder",
-      ...configuration,
-      moduleBasePath: path.join(".", "src"),
-      packageVersion: "1.0.0",
-    });
+    update = new Update(
+      {
+        basePath: "fake_test_folder",
+      },
+      "1.0.0"
+    );
+    // installation path during tests is relative to the uncompiled source files
+    update.ownInstallationBasePath = path.join(__dirname, "../..");
   });
 
   describe("update", () => {
@@ -175,13 +177,17 @@ describe("deven-cli", () => {
       fs.writeFileSync(update.readmePath, "");
       fs.writeFileSync(update.configFilePath, "");
       update.updateChapters();
-      expect(update.docsFiles.length).toBe(update.docsSourceFiles.length);
+      expect(update.findDocsFiles().length).toBe(
+        update.findDocsSourceFiles().length
+      );
     });
     it("creates the docs folder and copies the missing files into it", async () => {
       fs.writeFileSync(update.readmePath, "");
       fs.writeFileSync(update.configFilePath, "");
       update.updateChapters();
-      expect(update.docsFiles.length).toBe(update.docsSourceFiles.length);
+      expect(update.findDocsFiles().length).toBe(
+        update.findDocsSourceFiles().length
+      );
     });
 
     it("updates the version in the config file ", async () => {

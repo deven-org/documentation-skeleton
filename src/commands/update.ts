@@ -6,9 +6,9 @@ import semverCompare from "semver-compare";
 
 import { logger } from "../Logger";
 import { Message, messages } from "../shared/messages";
-import { Command } from "./command";
+import { BaseCommand, ExecutableCommand } from "./command";
 
-export class Update extends Command {
+export class Update extends BaseCommand implements ExecutableCommand {
   private renameFile(
     oldFileName: string,
     newFileName: string,
@@ -26,16 +26,16 @@ export class Update extends Command {
   }
 
   public preliminaryCheck(): void {
-    if (this.existsConfigFile) {
+    if (this.existsConfigFile()) {
       logger.info(messages.check.checkConfigExists);
     } else {
       logger.error(messages.check.checkConfigNotExists);
       process.exit(1);
     }
 
-    if (this.existsOutdatedDocFolder) {
+    if (this.existsOutdatedDocFolder()) {
       logger.info(messages.check.checkOutdatedFolderExist);
-      if (this.existsDocsFolder) {
+      if (this.existsDocsFolder()) {
         logger.error(messages.update.outdatedDocFolderCannotBeRenamed);
         process.exit(1);
       }
@@ -45,7 +45,7 @@ export class Update extends Command {
   }
 
   public updateOutdatedFolderName() {
-    if (!this.existsOutdatedDocFolder) {
+    if (!this.existsOutdatedDocFolder()) {
       return;
     }
 
@@ -78,17 +78,17 @@ export class Update extends Command {
   }
 
   public updateChapters() {
-    if (!this.existsDocsFolder) {
+    if (!this.existsDocsFolder()) {
       fs.mkdirSync(this.docsPath);
     }
 
-    if (!this.existsReadme) {
+    if (!this.existsReadme()) {
       fs.copySync(this.readmeSourcePath, this.readmePath);
       logger.info(messages.install.readmeCloneSuccesful);
     }
 
-    const missingFiles = this.docsSourceFiles.filter(
-      (value) => !this.docsFiles.includes(value)
+    const missingFiles = this.findDocsSourceFiles().filter(
+      (value) => !this.findDocsFiles().includes(value)
     );
 
     if (missingFiles.length === 0) {
@@ -112,7 +112,7 @@ export class Update extends Command {
     missingFiles.forEach((f) => {
       table.push([
         f.replace(".md", ""),
-        this.docsFiles.includes(f)
+        this.findDocsFiles().includes(f)
           ? chalk.green(`Copied`)
           : chalk.red("Not copied"),
       ]);
@@ -124,7 +124,7 @@ export class Update extends Command {
   }
 
   public updateConfigFile() {
-    if (!this.existsConfigFile) {
+    if (!this.existsConfigFile()) {
       logger.error(messages.update.configFileNotExist.message);
       process.exit(1);
       // Although this code is unreachable, it's currently required for test execution,

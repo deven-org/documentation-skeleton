@@ -44,12 +44,14 @@ describe("deven-cli", () => {
       }),
     });
     enquirer.prompt = jest.fn().mockResolvedValue({ confirm: true });
-    install = new Install({
-      basePath: "fake_test_folder",
-      ...configuration,
-      moduleBasePath: path.join(".", "src"),
-      packageVersion: "1.0.0",
-    });
+    install = new Install(
+      {
+        basePath: "fake_test_folder",
+      },
+      "1.0.0"
+    );
+    // installation path during tests is relative to the uncompiled source files
+    install.ownInstallationBasePath = path.join(__dirname, "../..");
   });
 
   describe("install", () => {

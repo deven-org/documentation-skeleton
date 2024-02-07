@@ -1,7 +1,7 @@
 import * as path from "path";
 import * as fs from "fs-extra";
 import { configuration } from "../shared/configuration";
-import { Command } from "../commands/command";
+import { BaseCommand } from "../commands/command";
 import mockFs from "mock-fs";
 import {
   mockProcessExit,
@@ -15,7 +15,7 @@ let mockStdout: jest.SpyInstance;
 let mockStderr: jest.SpyInstance;
 let mockLog: jest.SpyInstance;
 
-let command: Command;
+let command: BaseCommand;
 describe("deven-cli", () => {
   afterEach(() => {
     mockFs.restore();
@@ -38,12 +38,14 @@ describe("deven-cli", () => {
         lazy: false,
       }),
     });
-    command = new Command({
-      basePath: "fake_test_folder",
-      ...configuration,
-      moduleBasePath: path.join(".", "src"),
-      packageVersion: "1.0.0",
-    });
+    command = new BaseCommand(
+      {
+        basePath: "fake_test_folder",
+      },
+      "1.0.0"
+    );
+    // installation path during tests is relative to the uncompiled source files
+    command.ownInstallationBasePath = path.join(__dirname, "../..");
   });
 
   describe("command", () => {
@@ -78,32 +80,32 @@ describe("deven-cli", () => {
       );
     });
     it("return false when the config file doesn't exist", async () => {
-      expect(command.existsConfigFile).toBeFalsy();
+      expect(command.existsConfigFile()).toBeFalsy();
     });
     it("return true when the config file exists", async () => {
       fs.writeFileSync(command.configFilePath, "");
-      expect(command.existsConfigFile).toBeTruthy();
+      expect(command.existsConfigFile()).toBeTruthy();
     });
     it("return false when the outdated doc folder doesn't exist", async () => {
-      expect(command.existsOutdatedDocFolder).toBeFalsy();
+      expect(command.existsOutdatedDocFolder()).toBeFalsy();
     });
     it("return true when the outdated doc folder exists", async () => {
       fs.mkdirSync(command.outdatedDocPath);
-      expect(command.existsOutdatedDocFolder).toBeTruthy();
+      expect(command.existsOutdatedDocFolder()).toBeTruthy();
     });
     it("return the list of all the available chapters (except the readme)", async () => {
-      expect(command.docsSourceFiles.length).toBe(8);
+      expect(command.findDocsSourceFiles().length).toBe(8);
     });
     it("return the list of all local chapters (except the readme)", async () => {
       fs.copySync(command.docsSourcePath, command.docsPath);
-      expect(command.docsFiles.length).toBe(8);
+      expect(command.findDocsFiles().length).toBe(8);
     });
     it("return the list of all the chapters", async () => {
       fs.copySync(command.docsSourcePath, command.docsPath);
-      expect(command.coverage).toBe(100);
+      expect(command.coverage()).toBe(100);
       fs.rmSync(path.join(command.docsPath, "CONTRIBUTE.md"));
       fs.rmSync(path.join(command.docsPath, "TESTING.md"));
-      expect(command.coverage).toBe(75);
+      expect(command.coverage()).toBe(75);
     });
   });
 });

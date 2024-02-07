@@ -41,12 +41,9 @@ describe("deven-cli", () => {
         lazy: false,
       }),
     });
-    check = new Check({
-      basePath: "fake_test_folder",
-      ...configuration,
-      moduleBasePath: path.join(".", "src"),
-      packageVersion: "1.0.0",
-    });
+    check = new Check({ basePath: "fake_test_folder" }, "1.0.0");
+    // installation path during tests is relative to the uncompiled source files
+    check.ownInstallationBasePath = path.join(__dirname, "../..");
   });
 
   describe("check", () => {
