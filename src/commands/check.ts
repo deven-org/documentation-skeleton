@@ -3,32 +3,32 @@ import Table from "cli-table3";
 
 import { logger } from "../Logger";
 import { messages } from "../shared/messages";
-import { Command } from "./command";
+import { BaseCommand, ExecutableCommand } from "./command";
 
-export class Check extends Command {
+export class Check extends BaseCommand implements ExecutableCommand {
   public preliminaryCheck(): void {
-    if (this.existsConfigFile) {
+    if (this.existsConfigFile()) {
       logger.info(messages.check.checkConfigExists);
     } else {
       logger.error(messages.check.checkConfigNotExists);
       process.exit(1);
     }
 
-    if (this.existsDocsFolder) {
+    if (this.existsDocsFolder()) {
       logger.info(messages.check.checkFolderExist);
     } else {
       logger.error(messages.check.checkFolderNotExist);
       process.exit(1);
     }
 
-    if (this.existsOutdatedDocFolder) {
+    if (this.existsOutdatedDocFolder()) {
       logger.info(messages.check.checkOutdatedFolderNotExist);
     } else {
       logger.error(messages.check.checkOutdatedFolderExist);
       process.exit(1);
     }
 
-    if (this.existsReadme) {
+    if (this.existsReadme()) {
       logger.info(messages.check.readmeExists);
     } else {
       logger.error(messages.check.checkFolderNotExist);
@@ -42,15 +42,15 @@ export class Check extends Command {
       style: { head: ["cyan"] },
       head: [
         `Files (vers. ${this.packageVersion})`,
-        `Project (${Math.round(this.coverage)}% file coverage)`,
+        `Project (${Math.round(this.coverage())}% file coverage)`,
       ],
       colWidths: [40],
     });
 
-    this.docsSourceFiles.forEach((f) => {
+    this.findDocsSourceFiles().forEach((f) => {
       table.push([
         f.replace(".md", ""),
-        this.docsFiles.includes(f)
+        this.findDocsFiles().includes(f)
           ? chalk.green(`Found`)
           : chalk.red("Not found"),
       ]);

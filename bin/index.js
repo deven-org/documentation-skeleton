@@ -6,13 +6,7 @@ const cli = require("cac")();
 const chalk = require("chalk");
 const clear = require("clear");
 
-const { rootLogger } = require("ts-jest");
-const {
-  configuration,
-  Install,
-  Check,
-  Update,
-} = require("../dist/main.umd.js");
+const { Install, Check, Update } = require("../dist/main.umd.js");
 const { version } = require("../package.json");
 
 clear();
@@ -29,11 +23,7 @@ cli
     "The root folder of the project, the one where the documentation folder is or will be located."
   )
   .action((options) => {
-    const install = new Install({
-      ...options,
-      ...configuration,
-      packageVersion: version,
-    });
+    const install = new Install(options, version);
     install.run();
   });
 
@@ -47,11 +37,7 @@ cli
     "The root folder of the project, the one where the documentation folder is located."
   )
   .action((options) => {
-    const check = new Check({
-      ...options,
-      ...configuration,
-      packageVersion: version,
-    });
+    const check = new Check(options, version);
     check.run();
   });
 
@@ -65,14 +51,10 @@ cli
     "The root folder of the project, the one where the documentation folder is located."
   )
   .action((options) => {
-    const update = new Update({
-      ...options,
-      ...configuration,
-      packageVersion: version,
-    });
+    const update = new Update(options, version);
     update.run();
   });
 
 cli.help();
-cli.version(require("../package.json").version);
+cli.version(version);
 cli.parse();
