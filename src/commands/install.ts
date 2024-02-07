@@ -2,29 +2,29 @@ import * as fs from "fs-extra";
 import { prompt } from "enquirer";
 import { logger } from "../Logger";
 import { messages } from "../shared/messages";
-import { Command } from "./command";
+import { BaseCommand, ExecutableCommand } from "./command";
 
-export class Install extends Command {
+export class Install extends BaseCommand implements ExecutableCommand {
   public async preliminaryCheck(): Promise<void> {
-    if (this.existsConfigFile) {
+    if (this.existsConfigFile()) {
       logger.error(messages.install.checkConfigExists);
       console.log("");
       process.exit(1);
     }
 
-    if (this.existsDocsFolder && this.existsBackupDocsFolder) {
+    if (this.existsDocsFolder() && this.existsBackupDocsFolder()) {
       logger.error(messages.install.checkFolderExist);
       console.log("");
       process.exit(1);
     }
 
-    if (this.existsReadme && this.existsBackupReadme) {
+    if (this.existsReadme() && this.existsBackupReadme()) {
       logger.error(messages.install.checkReadmeExists);
       console.log("");
       process.exit(1);
     }
 
-    if (this.existsReadme) {
+    if (this.existsReadme()) {
       const canRenameReadme: { confirm: boolean } = await prompt({
         type: "confirm",
         initial: "y",
@@ -41,11 +41,11 @@ export class Install extends Command {
   }
 
   public backupDocsFolder(): void {
-    if (!this.existsDocsFolder) {
+    if (!this.existsDocsFolder()) {
       return;
     }
 
-    if (this.existsBackupDocsFolder) {
+    if (this.existsBackupDocsFolder()) {
       logger.error(messages.install.backupFolderExists.message);
       process.exit(1);
     }
@@ -56,7 +56,7 @@ export class Install extends Command {
   }
 
   public cloneDocsFolder = (): void => {
-    if (this.existsDocsFolder) {
+    if (this.existsDocsFolder()) {
       throw Error(messages.install.docsFolderExists.message);
     }
     fs.copySync(this.docsSourcePath, this.docsPath);
@@ -64,10 +64,10 @@ export class Install extends Command {
   };
 
   public backupReadme(): void {
-    if (!this.existsReadme) {
+    if (!this.existsReadme()) {
       return;
     }
-    if (this.existsBackupReadme) {
+    if (this.existsBackupReadme()) {
       logger.error(messages.install.backupReadmeExists.message);
       console.log("");
       process.exit(1);
@@ -78,7 +78,7 @@ export class Install extends Command {
   }
 
   public cloneReadme = (): void => {
-    if (this.existsReadme) {
+    if (this.existsReadme()) {
       throw Error(messages.install.readmeExists.message);
     }
     fs.copySync(this.readmeSourcePath, this.readmePath);
@@ -86,7 +86,7 @@ export class Install extends Command {
   };
 
   public createsConfigFile = (): void => {
-    if (this.existsConfigFile) {
+    if (this.existsConfigFile()) {
       logger.error(messages.install.configFileExists);
       console.log("");
       process.exit(1);

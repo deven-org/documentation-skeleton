@@ -12,26 +12,49 @@ export type Config = {
   packageVersion: string;
 };
 
-export class Command {
+export interface ExecutableCommand<
+  CommandParams extends BaseCliParams = BaseCliParams
+> extends BaseCommand<CommandParams> {
+  preliminaryCheck(): void;
+  run(): void;
+}
+
+export type BaseCliParams = {
+  basePath: string | undefined;
+};
+
+export class BaseCommand<CliParams extends BaseCliParams = BaseCliParams> {
+  // __dirname is equivalent to the installation path of dist/main.umd.js.
+  // This way the commands can be executed locally as well with "npm run self:install/check/update".
+  // Exposed for overwriting in tests, since the behaviour in tests is different.
+  public ownInstallationBasePath = path.join(__dirname, "..");
+
+  static rootSourceFolder = "src/root";
+  static docsSourceFolder = "src/docs";
+
+  static docsFolderName = "docs";
+  static outdatedDocFolderName = "doc";
+  static docsBackupFolderName = "_docs_backup_please_rename";
+  static configFilename = "deven-skeleton-install.config.json";
+
   private basePath: string;
-  private docsFolderName: string;
-  private outdatedDocFolderName: string;
-  private docsBackupFolderName: string;
-  private moduleBasePath: string;
-  private configFilename: string;
-  private rootFolderName: string;
   public packageVersion: string;
+
+  constructor(params: CliParams, packageVersion: string) {
+    this.basePath = params.basePath || path.normalize(".");
+    this.packageVersion = packageVersion;
+  }
 
   public getDocsFilePath(filename: string): string {
     return path.join(this.docsPath, filename);
   }
 
   get docsPath(): string {
-    return path.join(this.basePath, this.docsFolderName);
+    return path.join(this.basePath, BaseCommand.docsFolderName);
   }
 
   get outdatedDocPath(): string {
-    return path.join(this.basePath, this.outdatedDocFolderName);
+    return path.join(this.basePath, BaseCommand.outdatedDocFolderName);
   }
 
   get readmePath(): string {
@@ -39,7 +62,7 @@ export class Command {
   }
 
   get docsBackupPath(): string {
-    return path.join(this.basePath, this.docsBackupFolderName);
+    return path.join(this.basePath, BaseCommand.docsBackupFolderName);
   }
 
   get readmeBackupPath(): string {
@@ -47,72 +70,68 @@ export class Command {
   }
 
   get docsSourcePath(): string {
-    return path.join(this.moduleBasePath, this.docsFolderName);
+    return path.join(
+      this.ownInstallationBasePath,
+      BaseCommand.docsSourceFolder
+    );
   }
 
   get readmeSourcePath(): string {
-    return path.join(this.moduleBasePath, this.rootFolderName, "README.md");
+    return path.join(
+      this.ownInstallationBasePath,
+      BaseCommand.rootSourceFolder,
+      "README.md"
+    );
   }
 
   get configFileSourcePath(): string {
     return path.join(
-      this.moduleBasePath,
-      this.rootFolderName,
-      this.configFilename
+      this.ownInstallationBasePath,
+      BaseCommand.rootSourceFolder,
+      BaseCommand.configFilename
     );
   }
 
   get configFilePath(): string {
-    return path.join(this.basePath, this.configFilename);
+    return path.join(this.basePath, BaseCommand.configFilename);
   }
 
-  get existsDocsFolder(): boolean {
+  existsDocsFolder(): boolean {
     return fs.existsSync(this.docsPath);
   }
 
-  get existsOutdatedDocFolder(): boolean {
+  existsOutdatedDocFolder(): boolean {
     return fs.existsSync(this.outdatedDocPath);
   }
 
-  get existsReadme(): boolean {
+  existsReadme(): boolean {
     return fs.existsSync(this.readmePath);
   }
 
-  get existsBackupDocsFolder(): boolean {
+  existsBackupDocsFolder(): boolean {
     return fs.existsSync(this.docsBackupPath);
   }
 
-  get existsBackupReadme(): boolean {
+  existsBackupReadme(): boolean {
     return fs.existsSync(this.readmeBackupPath);
   }
 
-  get existsConfigFile(): boolean {
+  existsConfigFile(): boolean {
     return fs.existsSync(this.configFilePath);
   }
 
-  get docsSourceFiles(): string[] {
+  findDocsSourceFiles(): string[] {
     return fs.readdirSync(this.docsSourcePath);
   }
 
-  get docsFiles(): string[] {
+  findDocsFiles(): string[] {
     return fs.readdirSync(this.docsPath);
   }
 
-  get coverage(): number {
-    const found = this.docsSourceFiles.filter((x) =>
-      this.docsFiles.includes(x)
+  coverage(): number {
+    const found = this.findDocsSourceFiles().filter((x) =>
+      this.findDocsFiles().includes(x)
     );
-    return (found.length / this.docsSourceFiles.length) * 100;
-  }
-
-  constructor(config: Config) {
-    this.basePath = config.basePath || path.normalize(".");
-    this.docsFolderName = config.docsFolderName;
-    this.outdatedDocFolderName = config.outdatedDocFolderName;
-    this.docsBackupFolderName = config.docsBackupFolderName;
-    this.moduleBasePath = config.moduleBasePath;
-    this.configFilename = config.configFilename;
-    this.rootFolderName = config.rootFolderName;
-    this.packageVersion = config.packageVersion;
+    return (found.length / this.findDocsSourceFiles().length) * 100;
   }
 }
