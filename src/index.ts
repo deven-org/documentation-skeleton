@@ -1,5 +1,4 @@
 export * from "./commands/";
-export * from "./shared/configuration";
 import { logger } from "./Logger";
 
 process.on("uncaughtException", (err) => {
