@@ -116,8 +116,8 @@ yarn doc:install
 <summary>What to expect?</summary>
 <br />
 
-First of all a new folder will be created (`./docs`) containing all the skeleton chapters.
-Then it will be generated a config (`./.deven-skeleton-install.config`) which will track the installed version.
+First of all a name for the directory the files should be copied to has to be provided, either via the command line parameter `--documentationDirectory <dir>` or via the command line prompt. The highly recommended default for this directory is `docs`, because this will allow Github to auto-detect and nicely display e.g. the `CODE_OF_CONDUCT.md`. As soon as a not yet existing directory has been provided it will be created with all the skeleton chapters.
+Then a config (`./.deven-skeleton-install.config`) will be generated which tracks the installed version and the documentation directory that was just created.
 
 If the `./.deven-skeleton-install.config` is already existing, the script will just stop. It means that the documentation skeleton has been already succesfully installed and there's no need to proceed with a new installation.
 

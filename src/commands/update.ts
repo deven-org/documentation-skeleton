@@ -3,12 +3,25 @@ import path from "path";
 import chalk from "chalk";
 import Table from "cli-table3";
 import semverCompare from "semver-compare";
+import { prompt } from "enquirer";
 
 import { logger } from "../Logger";
 import { Message, messages } from "../shared/messages";
-import { BaseCommand, ExecutableCommand } from "./command";
+import { BaseCommand } from "./command";
+import { ConfigFile } from "../interfaces";
 
-export class Update extends BaseCommand implements ExecutableCommand {
+export class Update extends BaseCommand {
+  steps = [
+    this.preliminaryCheck.bind(this),
+    this.readConfigfile.bind(this),
+    this.updateOutdatedDirectoryName.bind(this),
+    this.updateOutdatedFileNames.bind(this),
+    this.updateChapters.bind(this),
+    this.updateConfigFile.bind(this),
+  ];
+
+  #config: Partial<ConfigFile> = {};
+
   private renameFile(
     oldFileName: string,
     newFileName: string,
@@ -25,35 +38,89 @@ export class Update extends BaseCommand implements ExecutableCommand {
     logger.info(loggerMessage);
   }
 
-  public preliminaryCheck(): void {
+  public async preliminaryCheck(): Promise<boolean> {
     if (this.existsConfigFile()) {
       logger.info(messages.check.checkConfigExists);
     } else {
       logger.error(messages.check.checkConfigNotExists);
-      process.exit(1);
+      return false;
     }
 
     if (this.existsOutdatedDocFolder()) {
       logger.info(messages.check.checkOutdatedFolderExist);
-      if (this.existsDocsFolder()) {
-        logger.error(messages.update.outdatedDocFolderCannotBeRenamed);
-        process.exit(1);
-      }
     } else {
       logger.info(messages.check.checkOutdatedFolderNotExist);
     }
+
+    return true;
   }
 
-  public updateOutdatedFolderName() {
+  public async readConfigfile(): Promise<boolean> {
+    try {
+      const configText = fs.readFileSync(this.configFilePath, "utf8");
+      // This is an unsafe assumption as we have no control over the file
+      // contents, but we will be careful and catch errors.
+      this.#config = JSON.parse(configText) as Partial<ConfigFile>;
+
+      if (
+        this.#config.documentationDirectory &&
+        typeof this.#config.documentationDirectory === "string"
+      ) {
+        this.documentationDirectory = this.#config.documentationDirectory;
+      }
+      logger.info(messages.update.configFileParsed);
+    } catch (e: unknown) {
+      logger.error(messages.update.configFileUnparsable);
+      return false;
+    }
+    return true;
+  }
+
+  public async updateOutdatedDirectoryName(): Promise<boolean> {
     if (!this.existsOutdatedDocFolder()) {
-      return;
+      return true;
     }
 
-    fs.renameSync(this.outdatedDocPath, this.docsPath);
-    logger.info(messages.update.renamedOutdatedDocFolderToDocs);
+    if (this.documentationDirectory === null) {
+      const documentationDirectory: { directory: string } = await prompt({
+        type: "input",
+        initial: "docs",
+        name: "directory",
+        message: messages.update.useNewDocumentationDirectory,
+      });
+
+      if (
+        documentationDirectory === undefined ||
+        documentationDirectory.directory === ""
+      ) {
+        logger.error(messages.update.noDocumentationDirectoryProvided);
+        return false;
+      }
+
+      this.documentationDirectory = documentationDirectory.directory;
+
+      if (this.outdatedDocPath === this.docsPath) {
+        logger.info(messages.update.keepDocDirectory);
+      } else {
+        if (this.existsDocsFolder()) {
+          logger.error(
+            messages.update.documentationDirectoryExists(
+              this.documentationDirectory
+            )
+          );
+          return false;
+        }
+        fs.renameSync(this.outdatedDocPath, this.docsPath);
+        logger.info(
+          messages.update.renamedOutdatedDocFolder(this.documentationDirectory)
+        );
+      }
+    }
+
+    return true;
   }
 
-  public updateOutdatedFileNames() {
+  public async updateOutdatedFileNames(): Promise<boolean> {
     const filesToRename = [
       {
         old: "CODEOFCONDUCT.md",
@@ -75,9 +142,11 @@ export class Update extends BaseCommand implements ExecutableCommand {
     filesToRename.forEach((file) => {
       this.renameFile(file.old, file.new, file.message);
     });
+
+    return true;
   }
 
-  public updateChapters() {
+  public async updateChapters(): Promise<boolean> {
     if (!this.existsDocsFolder()) {
       fs.mkdirSync(this.docsPath);
     }
@@ -93,7 +162,7 @@ export class Update extends BaseCommand implements ExecutableCommand {
 
     if (missingFiles.length === 0) {
       logger.info(messages.update.alreadyUpdated);
-      return;
+      return true;
     }
 
     missingFiles.forEach((m) => {
@@ -121,41 +190,41 @@ export class Update extends BaseCommand implements ExecutableCommand {
     console.log(table.toString());
 
     logger.success(messages.update.updated);
+    return true;
   }
 
-  public updateConfigFile() {
+  public async updateConfigFile(): Promise<boolean> {
     if (!this.existsConfigFile()) {
       logger.error(messages.update.configFileNotExist.message);
-      process.exit(1);
-      // Although this code is unreachable, it's currently required for test execution,
-      // because the mock for process.exit does not stop code execution.
-      // TODO: reconfigure mock so that tests can be executed without this additional return value.
       return false;
     }
 
-    const configFile = JSON.parse(
-      fs.readFileSync(this.configFilePath, { encoding: "utf8", flag: "r" })
-    );
-    if (semverCompare(this.packageVersion, configFile.version) <= 0) {
+    let updateAvailable = false;
+
+    if (!this.#config.documentationDirectory && this.documentationDirectory) {
+      this.#config.documentationDirectory = this.documentationDirectory;
+      logger.info(messages.update.documentationDirectoryAddedToConfig);
+      updateAvailable = true;
+    }
+
+    if (
+      this.#config.version &&
+      semverCompare(this.packageVersion, this.#config.version) <= 0
+    ) {
       logger.info(messages.update.versionNotUpdated);
-      process.exit(0);
-      // Although this code is unreachable, it's currently required for test execution,
-      // because the mock for process.exit does not stop code execution.
-      // TODO: reconfigure mock so that tests can be executed without this additional return value.
-      return false;
+    } else {
+      this.#config.version = this.packageVersion;
+      updateAvailable = true;
     }
-    configFile.version = this.packageVersion;
-    fs.writeFileSync(this.configFilePath, JSON.stringify(configFile, null, 2));
 
-    logger.success(messages.update.configFileUpdated);
-  }
+    if (updateAvailable) {
+      fs.writeFileSync(
+        this.configFilePath,
+        JSON.stringify(this.#config, null, 2)
+      );
 
-  public run() {
-    this.preliminaryCheck();
-    this.updateOutdatedFolderName();
-    this.updateOutdatedFileNames();
-    this.updateChapters();
-    this.updateConfigFile();
-    process.exit(0);
+      logger.success(messages.update.configFileUpdated);
+    }
+    return true;
   }
 }

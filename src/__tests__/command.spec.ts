@@ -50,13 +50,20 @@ describe("deven-cli", () => {
 
   describe("command", () => {
     it("getDocsFilePath returns the correct path", async () => {
+      command.documentationDirectory = "docs";
       expect(command.getDocsFilePath("test.md")).toBe(
         "fake_test_folder/docs/test.md"
       );
-    }),
-      it("provides the right docs path (<root>/docs)", async () => {
-        expect(command.docsPath).toBe("fake_test_folder/docs");
-      });
+    });
+    it("provides the right docs path (<root>/docs)", async () => {
+      command.documentationDirectory = "docs";
+      expect(command.docsPath).toBe("fake_test_folder/docs");
+    });
+    it("throws an error for docsPath if no documentation directory is set", async () => {
+      expect(() => command.docsPath).toThrowError(
+        "#documentationDirectory has not been set yet. Please ensure that it has been set before trying to access it."
+      );
+    });
     it("provides the right outdated doc path (<root>/doc)", async () => {
       expect(command.outdatedDocPath).toBe("fake_test_folder/doc");
     });
@@ -92,15 +99,27 @@ describe("deven-cli", () => {
       expect(command.findDocsSourceFiles().length).toBe(8);
     });
     it("return the list of all local chapters (except the readme)", async () => {
+      command.documentationDirectory = "docs";
       fs.copySync(command.docsSourcePath, command.docsPath);
       expect(command.findDocsFiles().length).toBe(8);
     });
     it("return the list of all the chapters", async () => {
+      command.documentationDirectory = "docs";
       fs.copySync(command.docsSourcePath, command.docsPath);
       expect(command.coverage()).toBe(100);
       fs.rmSync(path.join(command.docsPath, "CONTRIBUTE.md"));
       fs.rmSync(path.join(command.docsPath, "TESTING.md"));
       expect(command.coverage()).toBe(75);
+    });
+    it("throws an error if no steps to run are available", async () => {
+      command.steps = null;
+      let caughtError = "";
+      try {
+        await command.run();
+      } catch (error: unknown) {
+        caughtError = (error as Error).message;
+      }
+      expect(caughtError).toBe("Command subclass must specify steps");
     });
   });
 });

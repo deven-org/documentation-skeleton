@@ -6,6 +6,32 @@ const stripAnsi = (s: string): string =>
   );
 
 describe("messages", () => {
+  it("selectDocumentationDirectory", async () => {
+    expect(messages.install.selectDocumentationDirectory).toContain(
+      "Please enter the name of the documentation directory that should be created."
+    );
+  });
+  it("documentationDirectoryExists", async () => {
+    expect(
+      stripAnsi(
+        messages.install.documentationDirectoryExists("test.md").message
+      )
+    ).toBe(
+      'The selected directory "test.md" already exists. Please, run the "install" command again and provide a different directory name or delete the already existing directory before.'
+    );
+  });
+  it("documentationDirectorySet", async () => {
+    expect(
+      stripAnsi(messages.install.documentationDirectorySet("test.md").message)
+    ).toBe("Documentation directory has been set to: test.md");
+  });
+  it("noDocumentationDirectoryProvided", async () => {
+    expect(
+      stripAnsi(messages.install.noDocumentationDirectoryProvided.message)
+    ).toBe(
+      'Please, run the "install" command again and provide a name for the documentation directory.'
+    );
+  });
   it("cantRenameReadme", async () => {
     expect(stripAnsi(messages.install.cantRenameReadme.message)).toBe(
       'Please, rename or delete the "README" file and run the "install" command again.'
@@ -37,7 +63,7 @@ describe("messages", () => {
     );
   });
   it("cloneSuccesful", async () => {
-    expect(stripAnsi(messages.install.cloneSuccesful.message)).toBe(
+    expect(stripAnsi(messages.install.cloneSuccesful("./docs").message)).toBe(
       "The documentation ('./docs') has been successfully cloned into your project."
     );
   });
@@ -73,7 +99,7 @@ describe("messages", () => {
   });
   it("checkFolderExist", async () => {
     expect(stripAnsi(messages.check.checkFolderExist.message)).toBe(
-      "The documentation folder has been found."
+      "The documentation directory has been found."
     );
   });
   it("checkOutdatedFolderExist", async () => {
@@ -89,7 +115,7 @@ describe("messages", () => {
   });
   it("checkFolderNotExist", async () => {
     expect(stripAnsi(messages.check.checkFolderNotExist.message)).toBe(
-      "The documentation folder has not been found."
+      "The documentation directory has not been found."
     );
   });
   it("checkOutdatedFolderNotExist", async () => {
@@ -122,6 +148,25 @@ describe("messages", () => {
       "The config file hasn't been found."
     );
   });
+  it("useNewDocumentationDirectory", async () => {
+    expect(stripAnsi(messages.update.useNewDocumentationDirectory)).toContain(
+      'The current documentation directory is "doc". The new suggestion for this directory is "docs", so GitHub can auto-detect files like the Code of Conduct, but you can also switch to any other directory.'
+    );
+  });
+  it("noDocumentationDirectoryProvided", async () => {
+    expect(
+      stripAnsi(messages.update.noDocumentationDirectoryProvided.message)
+    ).toBe(
+      'Please, run the "update" command again and provide a name for the documentation directory.'
+    );
+  });
+  it("documentationDirectoryExists", async () => {
+    expect(
+      stripAnsi(messages.update.documentationDirectoryExists("test").message)
+    ).toBe(
+      'The selected directory "test" already exists. Please, run the "update" command again and provide a different directory name or delete the already existing directory before.'
+    );
+  });
   it("updated", async () => {
     expect(stripAnsi(messages.update.updated.message)).toBe(
       "The documentation has been succesfully updated."
@@ -132,23 +177,38 @@ describe("messages", () => {
       "The documentation version is already the latest available."
     );
   });
+  it("documentationDirectoryAddedToConfig", async () => {
+    expect(
+      stripAnsi(messages.update.documentationDirectoryAddedToConfig.message)
+    ).toBe(
+      "The documentation directory has been successfully added to the config file."
+    );
+  });
   it("configFileUpdated", async () => {
     expect(stripAnsi(messages.update.configFileUpdated.message)).toBe(
       "The config file has been updated."
     );
   });
-  it("checkOutdatedDocFolderCanBeRenamed", async () => {
-    expect(
-      stripAnsi(messages.update.outdatedDocFolderCannotBeRenamed.message)
-    ).toContain(
-      "Both the outdated documentation folder ('./doc') and the designated new documentation folder ('./docs') have been found."
+  it("configFileParsed", async () => {
+    expect(stripAnsi(messages.update.configFileParsed.message)).toBe(
+      "The config file has been found and parsed."
     );
   });
-  it("renamedOutdatedDocFolderToDocs", async () => {
+  it("configFileUnparsable", async () => {
+    expect(stripAnsi(messages.update.configFileUnparsable.message)).toBe(
+      "The config file could not be parsed."
+    );
+  });
+  it("keepDocDirectory", async () => {
+    expect(stripAnsi(messages.update.keepDocDirectory.message)).toBe(
+      "The documentation directory is still named ('./doc')."
+    );
+  });
+  it("renamedOutdatedDocFolder", async () => {
     expect(
-      stripAnsi(messages.update.renamedOutdatedDocFolderToDocs.message)
+      stripAnsi(messages.update.renamedOutdatedDocFolder("test").message)
     ).toContain(
-      "The documentation folder has been updated from ('./doc') to ('./docs')."
+      "The documentation directory has been renamed from ('doc') to ('test')."
     );
   });
   it("renamedCodeOfConduct", async () => {

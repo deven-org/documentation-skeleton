@@ -1,3 +1,4 @@
-export type CliOptions = {
-  basePath: "string";
+export type ConfigFile = {
+  version: string;
+  documentationDirectory: string;
 };
