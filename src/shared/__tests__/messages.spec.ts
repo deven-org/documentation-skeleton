@@ -6,11 +6,6 @@ const stripAnsi = (s: string): string =>
   );
 
 describe("messages", () => {
-  it("backupFolderExists", async () => {
-    expect(stripAnsi(messages.install.backupFolderExists.message)).toBe(
-      "The documentation backup folder has been found in your project."
-    );
-  });
   it("cantRenameReadme", async () => {
     expect(stripAnsi(messages.install.cantRenameReadme.message)).toBe(
       'Please, rename or delete the "README" file and run the "install" command again.'
@@ -34,11 +29,6 @@ describe("messages", () => {
   it("readmeExists", async () => {
     expect(stripAnsi(messages.install.readmeExists.message)).toBe(
       "The 'README.md' file already exists."
-    );
-  });
-  it("backupSuccesful", async () => {
-    expect(stripAnsi(messages.install.backupSuccesful.message)).toBe(
-      "The documentation folder has been renamed to './_doc'."
     );
   });
   it("readmeBackupSuccesful", async () => {
@@ -69,11 +59,6 @@ describe("messages", () => {
   it("success", async () => {
     expect(stripAnsi(messages.install.success.message)).toBe(
       "The documentation has been succesfully installed."
-    );
-  });
-  it("checkFolderExist", async () => {
-    expect(stripAnsi(messages.install.checkFolderExist.message)).toContain(
-      "Both the documentation folder ('./docs') and the documentation backup ('./_docs_backup_please_rename') folder have been found."
     );
   });
   it("checkReadmeExists", async () => {

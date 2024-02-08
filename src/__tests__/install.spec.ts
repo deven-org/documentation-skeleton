@@ -1,7 +1,6 @@
 import * as path from "path";
 import * as fs from "fs-extra";
 import enquirer from "enquirer";
-import { configuration } from "../shared/configuration";
 import { Install } from "../commands";
 import mockFs from "mock-fs";
 import {
@@ -28,6 +27,7 @@ describe("deven-cli", () => {
     mockStdout.mockRestore();
     mockStderr.mockRestore();
     mockLog.mockRestore();
+    jest.clearAllMocks();
   });
   beforeEach(() => {
     mockExit = mockProcessExit();
@@ -55,11 +55,20 @@ describe("deven-cli", () => {
   });
 
   describe("install", () => {
-    it("renames the folder if it already exists during the installation", async () => {
-      fs.writeFileSync(install.docsPath, "");
-      await install.run();
-      expect(fs.existsSync(install.docsBackupPath)).toBeTruthy();
-    });
+    // TODO: either one to check that we exit if docs exists
+
+    // it("renames the folder if it already exists during the installation", async () => {
+    //   fs.writeFileSync(install.docsPath, "");
+    //   await install.run();
+    //   expect(fs.existsSync(install.docsBackupPath)).toBeTruthy();
+    // });
+    // it("fails the preliminary check because the docs folder exist", async () => {
+    //   fs.mkdirSync(install.docsPath);
+    //   const error = jest.spyOn(logger, "error");
+    //   await install.run();
+    //   // TODO
+    //   // expect(error).toHaveBeenCalledWith(messages.install.checkFolderExist);
+    // });
 
     it("clones the source docs folder into the destination docs folder", async () => {
       await install.run();
@@ -86,20 +95,12 @@ describe("deven-cli", () => {
       expect(error).toHaveBeenCalled();
     });
 
-    it("fails the preliminary check because the docs and docs backup folder exist", async () => {
-      fs.mkdirSync(install.docsPath);
-      fs.mkdirSync(install.docsBackupPath);
-      const error = jest.spyOn(logger, "error");
-      await install.run();
-      expect(error).toHaveBeenCalledWith(messages.install.checkFolderExist);
-    });
-
     it("fails the preliminary check because the readme and backup readme exist", async () => {
       fs.writeFileSync(install.readmePath, "");
       fs.writeFileSync(install.readmeBackupPath, "");
       const error = jest.spyOn(logger, "error");
       await install.run();
-      expect(error).toHaveBeenCalledWith(messages.install.checkFolderExist);
+      expect(error).toHaveBeenCalledWith(messages.install.checkReadmeExists);
     });
   });
 });

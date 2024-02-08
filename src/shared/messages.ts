@@ -7,12 +7,6 @@ export type Message = {
 
 export const messages = {
   install: {
-    backupFolderExists: {
-      prefix: "[install]",
-      message: `The ${chalk.bold(
-        "documentation backup"
-      )} folder has been found in your project.`,
-    },
     cantRenameReadme: {
       prefix: "[install]",
       message: `Please, ${chalk.bold(
@@ -32,12 +26,6 @@ export const messages = {
     readmeExists: {
       prefix: "[install]",
       message: `The ${chalk.bold("'README.md'")} file already exists.`,
-    },
-    backupSuccesful: {
-      prefix: "[install]",
-      message: `The ${chalk.bold(
-        "documentation folder"
-      )} has been renamed to ${chalk.bold("'./_doc'")}.`,
     },
     readmeBackupSuccesful: {
       prefix: "[install]",
@@ -70,17 +58,6 @@ export const messages = {
     success: {
       prefix: "[install]",
       message: `The documentation has been succesfully installed.`,
-    },
-    checkFolderExist: {
-      prefix: "[install]",
-      message: `Both the documentation folder ${chalk.italic(
-        "('./docs')"
-      )} and the documentation backup ${chalk.italic(
-        "('./_docs_backup_please_rename')"
-      )} folder have been found.
-      \n In order to continue, you might want to ${chalk.bold(
-        "rename or delete at least one of them"
-      )}.`,
     },
     checkReadmeExists: {
       prefix: "[install]",
