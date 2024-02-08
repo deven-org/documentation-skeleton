@@ -1,6 +1,5 @@
 import * as path from "path";
 import * as fs from "fs-extra";
-import { configuration } from "../shared/configuration";
 import { Check } from "../commands";
 import { logger } from "../Logger";
 import mockFs from "mock-fs";
@@ -26,6 +25,7 @@ describe("deven-cli", () => {
     mockStdout.mockRestore();
     mockStderr.mockRestore();
     mockLog.mockRestore();
+    jest.clearAllMocks();
   });
   beforeEach(() => {
     mockExit = mockProcessExit();

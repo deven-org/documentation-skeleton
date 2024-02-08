@@ -1,17 +1,6 @@
 import * as path from "path";
 import * as fs from "fs-extra";
 
-export type Config = {
-  basePath: string;
-  docsFolderName: string;
-  outdatedDocFolderName: string;
-  docsBackupFolderName: string;
-  moduleBasePath: string;
-  configFilename: string;
-  rootFolderName: string;
-  packageVersion: string;
-};
-
 export interface ExecutableCommand<
   CommandParams extends BaseCliParams = BaseCliParams
 > extends BaseCommand<CommandParams> {
@@ -27,59 +16,54 @@ export class BaseCommand<CliParams extends BaseCliParams = BaseCliParams> {
   // __dirname is equivalent to the installation path of dist/main.umd.js.
   // This way the commands can be executed locally as well with "npm run self:install/check/update".
   // Exposed for overwriting in tests, since the behaviour in tests is different.
-  public ownInstallationBasePath = path.join(__dirname, "..");
+  ownInstallationBasePath = path.join(__dirname, "..");
 
-  static rootSourceFolder = "src/root";
-  static docsSourceFolder = "src/docs";
+  static #rootSourceFolder = "src/root";
+  static #docsSourceFolder = "src/docs";
 
-  static docsFolderName = "docs";
-  static outdatedDocFolderName = "doc";
-  static docsBackupFolderName = "_docs_backup_please_rename";
-  static configFilename = "deven-skeleton-install.config.json";
+  static #docsFolderName = "docs";
+  static #outdatedDocFolderName = "doc";
+  static #configFilename = "deven-skeleton-install.config.json";
 
-  private basePath: string;
-  public packageVersion: string;
+  #basePath: string;
+  packageVersion: string;
 
   constructor(params: CliParams, packageVersion: string) {
-    this.basePath = params.basePath || path.normalize(".");
+    this.#basePath = params.basePath || path.normalize(".");
     this.packageVersion = packageVersion;
   }
 
-  public getDocsFilePath(filename: string): string {
+  getDocsFilePath(filename: string): string {
     return path.join(this.docsPath, filename);
   }
 
   get docsPath(): string {
-    return path.join(this.basePath, BaseCommand.docsFolderName);
+    return path.join(this.#basePath, BaseCommand.#docsFolderName);
   }
 
   get outdatedDocPath(): string {
-    return path.join(this.basePath, BaseCommand.outdatedDocFolderName);
+    return path.join(this.#basePath, BaseCommand.#outdatedDocFolderName);
   }
 
   get readmePath(): string {
-    return path.join(this.basePath, "README.md");
-  }
-
-  get docsBackupPath(): string {
-    return path.join(this.basePath, BaseCommand.docsBackupFolderName);
+    return path.join(this.#basePath, "README.md");
   }
 
   get readmeBackupPath(): string {
-    return path.join(this.basePath, "_README.md");
+    return path.join(this.#basePath, "_README.md");
   }
 
   get docsSourcePath(): string {
     return path.join(
       this.ownInstallationBasePath,
-      BaseCommand.docsSourceFolder
+      BaseCommand.#docsSourceFolder
     );
   }
 
   get readmeSourcePath(): string {
     return path.join(
       this.ownInstallationBasePath,
-      BaseCommand.rootSourceFolder,
+      BaseCommand.#rootSourceFolder,
       "README.md"
     );
   }
@@ -87,13 +71,13 @@ export class BaseCommand<CliParams extends BaseCliParams = BaseCliParams> {
   get configFileSourcePath(): string {
     return path.join(
       this.ownInstallationBasePath,
-      BaseCommand.rootSourceFolder,
-      BaseCommand.configFilename
+      BaseCommand.#rootSourceFolder,
+      BaseCommand.#configFilename
     );
   }
 
   get configFilePath(): string {
-    return path.join(this.basePath, BaseCommand.configFilename);
+    return path.join(this.#basePath, BaseCommand.#configFilename);
   }
 
   existsDocsFolder(): boolean {
@@ -106,10 +90,6 @@ export class BaseCommand<CliParams extends BaseCliParams = BaseCliParams> {
 
   existsReadme(): boolean {
     return fs.existsSync(this.readmePath);
-  }
-
-  existsBackupDocsFolder(): boolean {
-    return fs.existsSync(this.docsBackupPath);
   }
 
   existsBackupReadme(): boolean {

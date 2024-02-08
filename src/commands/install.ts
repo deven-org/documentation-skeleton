@@ -12,9 +12,9 @@ export class Install extends BaseCommand implements ExecutableCommand {
       process.exit(1);
     }
 
-    if (this.existsDocsFolder() && this.existsBackupDocsFolder()) {
-      logger.error(messages.install.checkFolderExist);
-      console.log("");
+    if (this.existsDocsFolder()) {
+      // TODO logging
+      console.error("choose different docs folder name");
       process.exit(1);
     }
 
@@ -38,21 +38,6 @@ export class Install extends BaseCommand implements ExecutableCommand {
         process.exit(1);
       }
     }
-  }
-
-  public backupDocsFolder(): void {
-    if (!this.existsDocsFolder()) {
-      return;
-    }
-
-    if (this.existsBackupDocsFolder()) {
-      logger.error(messages.install.backupFolderExists.message);
-      process.exit(1);
-    }
-
-    fs.renameSync(this.docsPath, this.docsBackupPath);
-
-    logger.info(messages.install.backupSuccesful);
   }
 
   public cloneDocsFolder = (): void => {
@@ -104,7 +89,6 @@ export class Install extends BaseCommand implements ExecutableCommand {
 
   public async run() {
     await this.preliminaryCheck();
-    this.backupDocsFolder();
 
     this.cloneDocsFolder();
     this.createsConfigFile();

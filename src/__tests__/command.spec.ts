@@ -1,6 +1,5 @@
 import * as path from "path";
 import * as fs from "fs-extra";
-import { configuration } from "../shared/configuration";
 import { BaseCommand } from "../commands/command";
 import mockFs from "mock-fs";
 import {
@@ -23,6 +22,7 @@ describe("deven-cli", () => {
     mockStdout.mockRestore();
     mockStderr.mockRestore();
     mockLog.mockRestore();
+    jest.clearAllMocks();
   });
   beforeEach(() => {
     mockExit = mockProcessExit();
@@ -44,8 +44,8 @@ describe("deven-cli", () => {
       },
       "1.0.0"
     );
-    // installation path during tests is relative to the uncompiled source files
-    command.ownInstallationBasePath = path.join(__dirname, "../..");
+    // Written as a relative path to easily check outcomes against expected values
+    command.ownInstallationBasePath = ".";
   });
 
   describe("command", () => {
@@ -62,11 +62,6 @@ describe("deven-cli", () => {
     });
     it("provides the right readme path (<root>/README.md)", async () => {
       expect(command.readmePath).toBe("fake_test_folder/README.md");
-    });
-    it("provides the right docs backup path (<root>/_docs_backup_please_rename)", async () => {
-      expect(command.docsBackupPath).toBe(
-        "fake_test_folder/_docs_backup_please_rename"
-      );
     });
     it("provides the right readme backup path (<root>/_README)", async () => {
       expect(command.readmeBackupPath).toBe("fake_test_folder/_README.md");

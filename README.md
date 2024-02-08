@@ -13,21 +13,21 @@
 ## :information_source: Table of contents
 
 - [Deven Documentation Skeleton](#deven-documentation-skeleton)
-  - [:information_source: Table of contents](#information_source-table-of-contents)
+  - [:information\_source: Table of contents](#information_source-table-of-contents)
 - [:star: Introduction](#star-introduction)
   - [Goals](#goals)
-  - [:file_folder: Documentation Structure](#file_folder-documentation-structure)
+  - [:file\_folder: Documentation Structure](#file_folder-documentation-structure)
   - [Requirements](#requirements)
   - [Installation](#installation)
   - [:rocket: How to use it](#rocket-how-to-use-it)
     - [1. Install](#1-install)
     - [2. Check](#2-check)
     - [3. Update](#3-update)
-- [:white_check_mark: How to test](#white_check_mark-how-to-test)
+- [:white\_check\_mark: How to test](#white_check_mark-how-to-test)
 - [:v: Contribute](#v-contribute)
 - [:bug: Bugs and Issues](#bug-bugs-and-issues)
-- [:page_facing_up: License](#page_facing_up-license)
-- [:green_heart: Code of conduct](#green_heart-code-of-conduct)
+- [:page\_facing\_up: License](#page_facing_up-license)
+- [:green\_heart: Code of conduct](#green_heart-code-of-conduct)
 
 # :star: Introduction
 
@@ -119,9 +119,6 @@ yarn doc:install
 First of all a new folder will be created (`./docs`) containing all the skeleton chapters.
 Then it will be generated a config (`./.deven-skeleton-install.config`) which will track the installed version.
 
-If the `./docs` folder exists already, it will be renamed to `./_docs_backup_please_rename` and a new `docs` folder will be generated.
-If both the `docs` folder and the `_docs_backup_please_rename` folder are existing, the script won't proceed until you don't delete one of them.
-
 If the `./.deven-skeleton-install.config` is already existing, the script will just stop. It means that the documentation skeleton has been already succesfully installed and there's no need to proceed with a new installation.
 
 </details>
@@ -154,7 +151,7 @@ The content of the chapters won't be analysed nor considered for this report.
 ### 3. Update
 
 In case a previous version that used the `doc` folder instead of `docs`, the command `update` will try to rename the folder if no other `docs` folder already exists. Otherwise an error will be shown and the process will be aborted.  
-Furthermore some of the files will be renamed: `CODEOFCONDUCT.md` to `CODE_OF_CONDUCT.md`, `GETSTARTED.md` to `GET_STARTED.md` and `PROJECTBACKGROUND.md` to `PROJECT_BACKGROUND.md`.
+Furthermore some of the files will be renamed if they still exist in an older version: `CODEOFCONDUCT.md` to `CODE_OF_CONDUCT.md`, `GETSTARTED.md` to `GET_STARTED.md` and `PROJECTBACKGROUND.md` to `PROJECT_BACKGROUND.md`.
 
 In case one or more chapters are missing in the local documentation folder, the command `update` will clone them into the `docs` folder.
 
