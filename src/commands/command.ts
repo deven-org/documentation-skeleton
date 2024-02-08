@@ -1,13 +1,6 @@
 import * as path from "path";
 import * as fs from "fs-extra";
 
-export interface ExecutableCommand<
-  CommandParams extends BaseCliParams = BaseCliParams
-> extends BaseCommand<CommandParams> {
-  preliminaryCheck(): void;
-  run(): void;
-}
-
 export type BaseCliParams = {
   basePath: string | undefined;
 };
@@ -21,12 +14,14 @@ export class BaseCommand<CliParams extends BaseCliParams = BaseCliParams> {
   static #rootSourceFolder = "src/root";
   static #docsSourceFolder = "src/docs";
 
-  static #docsFolderName = "docs";
   static #outdatedDocFolderName = "doc";
   static #configFilename = "deven-skeleton-install.config.json";
 
+  documentationDirectory: string | null = null;
   #basePath: string;
   packageVersion: string;
+
+  steps: null | Array<() => Promise<boolean>> = null;
 
   constructor(params: CliParams, packageVersion: string) {
     this.#basePath = params.basePath || path.normalize(".");
@@ -38,7 +33,13 @@ export class BaseCommand<CliParams extends BaseCliParams = BaseCliParams> {
   }
 
   get docsPath(): string {
-    return path.join(this.#basePath, BaseCommand.#docsFolderName);
+    if (this.documentationDirectory === null) {
+      throw new Error(
+        "#documentationDirectory has not been set yet. Please ensure that it has been set before trying to access it."
+      );
+    }
+
+    return path.join(this.#basePath, this.documentationDirectory);
   }
 
   get outdatedDocPath(): string {
@@ -113,5 +114,20 @@ export class BaseCommand<CliParams extends BaseCliParams = BaseCliParams> {
       this.findDocsFiles().includes(x)
     );
     return (found.length / this.findDocsSourceFiles().length) * 100;
+  }
+
+  async run(): Promise<void> {
+    if (!this.steps) {
+      throw new Error("Command subclass must specify steps");
+    }
+
+    for (const step of this.steps) {
+      const success = await step();
+
+      if (!success) {
+        process.exitCode = 1;
+        return;
+      }
+    }
   }
 }

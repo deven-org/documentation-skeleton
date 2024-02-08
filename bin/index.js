@@ -22,6 +22,10 @@ cli
     "--basePath <dir>",
     "The root folder of the project, the one where the documentation folder is or will be located."
   )
+  .option(
+    "--documentationDirectory <dir>",
+    "The name of the directory where the documentation files will be installed."
+  )
   .action((options) => {
     const install = new Install(options, version);
     install.run();
