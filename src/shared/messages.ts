@@ -7,6 +7,28 @@ export type Message = {
 
 export const messages = {
   install: {
+    selectDocumentationDirectory:
+      'Please enter the name of the documentation directory that should be created.\nIf the directory already exists, name clashes will have to be resolved manually.\nIf possible, the default of "docs" should be used, so GitHub can auto-detect files like the Code of Conduct.\nDocumentation directory:',
+    documentationDirectoryExists: (directory: string) => {
+      return {
+        prefix: "[install]",
+        message: `The selected directory "${directory}" already exists. Please, run the "install" command again and ${chalk.bold(
+          "provide a different directory name"
+        )} or ${chalk.bold("delete the already existing directory")} before.`,
+      };
+    },
+    documentationDirectorySet: (directory: string) => {
+      return {
+        prefix: "[install]",
+        message: `Documentation directory has been set to: ${directory}`,
+      };
+    },
+    noDocumentationDirectoryProvided: {
+      prefix: "[install]",
+      message: `Please, run the "install" command again and ${chalk.bold(
+        "provide a name for the documentation directory"
+      )}.`,
+    },
     cantRenameReadme: {
       prefix: "[install]",
       message: `Please, ${chalk.bold(
@@ -33,12 +55,12 @@ export const messages = {
         "README.md"
       )} file has been renamed to  ${chalk.bold("'_README.md'")}`,
     },
-    cloneSuccesful: {
+    cloneSuccesful: (docDirPath: string) => ({
       prefix: "[install]",
       message: `The ${chalk.bold("documentation")} ${chalk.italic(
-        "('./docs')"
+        `('${docDirPath}')`
       )} has been successfully cloned into your project.`,
-    },
+    }),
     readmeCloneSuccesful: {
       prefix: "[install]",
       message: `The ${chalk.bold(
@@ -82,7 +104,7 @@ export const messages = {
     },
     checkFolderExist: {
       prefix: "[check]",
-      message: `The ${chalk.bold("documentation folder")} has been found.`,
+      message: `The ${chalk.bold("documentation directory")} has been found.`,
     },
     checkOutdatedFolderExist: {
       prefix: "[check]",
@@ -92,7 +114,9 @@ export const messages = {
     },
     checkFolderNotExist: {
       prefix: "[check]",
-      message: `The ${chalk.bold("documentation folder")} has not been found.`,
+      message: `The ${chalk.bold(
+        "documentation directory"
+      )} has not been found.`,
     },
     checkOutdatedFolderNotExist: {
       prefix: "[check]",
@@ -118,6 +142,45 @@ export const messages = {
     contentDocsFolder: {
       message: `\n${chalk.bold("Content of the documentation folder:")}`,
     },
+    checkConfigFileReadable: (filePath: string) => ({
+      prefix: "[check]",
+      message: `Could not open or parse the config file at '${filePath}'
+      \nMake sure the file can be read and written to and is a valid JSON object.`,
+    }),
+    checkConfigFieldVersionMissing: {
+      prefix: "[check]",
+      message: `The config file is missing a valid ${chalk.bold(
+        '"version"'
+      )} field, please fix it or re-install the documentation-skeleton.`,
+    },
+    checkConfigFieldVersionMismatch: (
+      foundVersion: string,
+      ownVersion: string
+    ) => ({
+      prefix: "[check]",
+      message: `The version specified in the config file is ${chalk.bold(
+        `'${foundVersion}'`
+      )}, but the installed version of the documentation-skeleton package is ${chalk.bold(
+        `'${ownVersion}'`
+      )}
+      \nMake sure the installed version is correct and run the ${chalk.bold(
+        "update"
+      )} command first.`,
+    }),
+    checkConfigFieldDocDirMissing: {
+      prefix: "[check]",
+      message: `The config file is missing a valid ${chalk.bold(
+        '"documentationDirectory"'
+      )} field, please fix it or re-install the documentation-skeleton.`,
+    },
+    checkConfigFileValid: {
+      prefix: "[check]",
+      message: `The config file is valid`,
+    },
+    checkDocDirPathFound: (docDirPath: string) => ({
+      prefix: "[check]",
+      message: `The documentation directory is: '${docDirPath}'`,
+    }),
   },
   update: {
     alreadyUpdated: {
@@ -128,6 +191,22 @@ export const messages = {
       prefix: "[update]",
       message: `The config file hasn't been found.`,
     },
+    useNewDocumentationDirectory:
+      'The current documentation directory is "doc". The new suggestion for this directory is "docs", so GitHub can auto-detect files like the Code of Conduct, but you can also switch to any other directory.\nIf the directory already exists, name clashes will have to be resolved manually.\nDocumentation directory:',
+    noDocumentationDirectoryProvided: {
+      prefix: "[update]",
+      message: `Please, run the "update" command again and ${chalk.bold(
+        "provide a name for the documentation directory"
+      )}.`,
+    },
+    documentationDirectoryExists: (directory: string) => {
+      return {
+        prefix: "[update]",
+        message: `The selected directory "${directory}" already exists. Please, run the "update" command again and ${chalk.bold(
+          "provide a different directory name"
+        )} or ${chalk.bold("delete the already existing directory")} before.`,
+      };
+    },
     updated: {
       prefix: "[update]",
       message: `The documentation has been succesfully updated.`,
@@ -136,28 +215,36 @@ export const messages = {
       prefix: "[update]",
       message: `The documentation version is already the latest available.`,
     },
+    documentationDirectoryAddedToConfig: {
+      prefix: "[update]",
+      message: `The documentation directory has been successfully added to the config file.`,
+    },
     configFileUpdated: {
       prefix: "[update]",
       message: `The config file has been updated.`,
     },
-    outdatedDocFolderCannotBeRenamed: {
+    configFileParsed: {
       prefix: "[update]",
-      message: `Both the outdated documentation folder ${chalk.italic(
-        "('./doc')"
-      )} and the designated new documentation folder ${chalk.italic(
-        "('./docs')"
-      )} have been found.
-      In order to continue, you might want to rename or delete the existing ${chalk.italic(
-        "('./docs')"
-      )} folder.
-      Please make sure that it is not used and thus overwritten by some other (e.g. deployment) process.`,
+      message: `The config file has been found and parsed.`,
     },
-    renamedOutdatedDocFolderToDocs: {
+    configFileUnparsable: {
       prefix: "[update]",
-      message: `The documentation folder has been updated from ${chalk.italic(
+      message: `The config file could not be parsed.`,
+    },
+    keepDocDirectory: {
+      prefix: "[update]",
+      message: `The documentation directory is still named ${chalk.italic(
         "('./doc')"
-      )} to ${chalk.italic("('./docs')")}.
+      )}.`,
+    },
+    renamedOutdatedDocFolder: (docDirPath: string) => {
+      return {
+        prefix: "[update]",
+        message: `The documentation directory has been renamed from ${chalk.italic(
+          "('doc')"
+        )} to ${chalk.italic(`('${docDirPath}')`)}.
       Please make sure to update all links that point to the documentation.`,
+      };
     },
     renamedCodeOfConduct: {
       prefix: "[update]",
