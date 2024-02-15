@@ -1,5 +1,6 @@
 import * as path from "path";
 import * as fs from "fs-extra";
+import { messages } from "../shared/messages";
 
 export type BaseCliParams = {
   basePath: string | undefined;
@@ -34,9 +35,7 @@ export class BaseCommand<CliParams extends BaseCliParams = BaseCliParams> {
 
   get docsPath(): string {
     if (this.documentationDirectory === null) {
-      throw new Error(
-        "#documentationDirectory has not been set yet. Please ensure that it has been set before trying to access it."
-      );
+      throw new Error(messages.error.documentationDirectoryNotSet);
     }
 
     return path.join(this.#basePath, this.documentationDirectory);
@@ -118,7 +117,7 @@ export class BaseCommand<CliParams extends BaseCliParams = BaseCliParams> {
 
   async run(): Promise<void> {
     if (!this.steps) {
-      throw new Error("Command subclass must specify steps");
+      throw new Error(messages.error.stepsNotSet);
     }
 
     for (const step of this.steps) {

@@ -77,44 +77,58 @@ export class Update extends BaseCommand {
   }
 
   public async updateOutdatedDirectoryName(): Promise<boolean> {
-    if (!this.existsOutdatedDocFolder()) {
+    if (this.documentationDirectory) {
       return true;
     }
 
-    if (this.documentationDirectory === null) {
-      const documentationDirectory: { directory: string } = await prompt({
-        type: "input",
-        initial: "docs",
-        name: "directory",
-        message: messages.update.useNewDocumentationDirectory,
-      });
+    const promptMessage = this.existsOutdatedDocFolder()
+      ? messages.update.useNewDocumentationDirectory
+      : messages.update.provideExistingDocumenationDirectory;
 
-      if (
-        documentationDirectory === undefined ||
-        documentationDirectory.directory === ""
-      ) {
-        logger.error(messages.update.noDocumentationDirectoryProvided);
+    const documentationDirectory: { directory: string } = await prompt({
+      type: "input",
+      initial: "docs",
+      name: "directory",
+      message: promptMessage,
+    });
+
+    if (
+      documentationDirectory === undefined ||
+      documentationDirectory.directory === ""
+    ) {
+      logger.error(messages.update.noDocumentationDirectoryProvided);
+      return false;
+    }
+
+    this.documentationDirectory = documentationDirectory.directory;
+
+    if (!this.existsOutdatedDocFolder()) {
+      if (!this.existsDocsFolder()) {
+        logger.error(
+          messages.update.documentationDirectoryNotExists(
+            this.documentationDirectory
+          )
+        );
         return false;
       }
+      return true;
+    }
 
-      this.documentationDirectory = documentationDirectory.directory;
-
-      if (this.outdatedDocPath === this.docsPath) {
-        logger.info(messages.update.keepDocDirectory);
-      } else {
-        if (this.existsDocsFolder()) {
-          logger.error(
-            messages.update.documentationDirectoryExists(
-              this.documentationDirectory
-            )
-          );
-          return false;
-        }
-        fs.renameSync(this.outdatedDocPath, this.docsPath);
-        logger.info(
-          messages.update.renamedOutdatedDocFolder(this.documentationDirectory)
+    if (this.outdatedDocPath === this.docsPath) {
+      logger.info(messages.update.keepDocDirectory);
+    } else {
+      if (this.existsDocsFolder()) {
+        logger.error(
+          messages.update.documentationDirectoryExists(
+            this.documentationDirectory
+          )
         );
+        return false;
       }
+      fs.renameSync(this.outdatedDocPath, this.docsPath);
+      logger.info(
+        messages.update.renamedOutdatedDocFolder(this.documentationDirectory)
+      );
     }
 
     return true;

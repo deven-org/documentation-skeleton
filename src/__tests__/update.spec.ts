@@ -4,7 +4,6 @@ import { Update } from "../commands";
 import { logger } from "../Logger";
 import mockFs from "mock-fs";
 import {
-  mockProcessExit,
   mockProcessStdout,
   mockProcessStderr,
   mockConsoleLog,
@@ -13,7 +12,6 @@ import { messages } from "../shared/messages";
 import { ConfigFile } from "../interfaces";
 import enquirer from "enquirer";
 
-let mockExit: jest.SpyInstance;
 let mockStdout: jest.SpyInstance;
 let mockStderr: jest.SpyInstance;
 let mockLog: jest.SpyInstance;
@@ -29,7 +27,6 @@ let update: Update;
 describe("deven-cli", () => {
   afterEach(() => {
     mockFs.restore();
-    mockExit.mockRestore();
     mockStdout.mockRestore();
     mockStderr.mockRestore();
     mockLog.mockRestore();
@@ -38,7 +35,6 @@ describe("deven-cli", () => {
     jest.clearAllMocks();
   });
   beforeEach(() => {
-    mockExit = mockProcessExit();
     mockStdout = mockProcessStdout();
     mockStderr = mockProcessStderr();
     mockLog = mockConsoleLog();
@@ -124,8 +120,33 @@ describe("deven-cli", () => {
     });
 
     describe("updateOutdatedDirectoryName", () => {
-      it("does nothing if no outdated directory exists", async () => {
-        await update.updateOutdatedDirectoryName();
+      it("does nothing if the documenation directory has been successfully read from the config", async () => {
+        update.documentationDirectory = "test";
+        const result = await update.updateOutdatedDirectoryName();
+        expect(result).toBeTruthy();
+      });
+      it("asks for the current documentation directory if none is in the config and no outdated doc directory exists", async () => {
+        const oldConfig = { ...mockConfig };
+        // @ts-expect-error -- purposefully testing bad data
+        delete oldConfig.documentationDirectory;
+        fs.writeFileSync(update.configFilePath, JSON.stringify(oldConfig));
+        enquirer.prompt = jest.fn().mockResolvedValue({ directory: "test" });
+        fs.mkdirSync("fake_test_folder/test");
+        const result = await update.updateOutdatedDirectoryName();
+        expect(result).toBeTruthy();
+      });
+      it("throws and error if the documentation directory provided that should be written to the config does not exist", async () => {
+        const oldConfig = { ...mockConfig };
+        // @ts-expect-error -- purposefully testing bad data
+        delete oldConfig.documentationDirectory;
+        fs.writeFileSync(update.configFilePath, JSON.stringify(oldConfig));
+        enquirer.prompt = jest.fn().mockResolvedValue({ directory: "test" });
+        const error = jest.spyOn(logger, "error");
+        const result = await update.updateOutdatedDirectoryName();
+        expect(error).toHaveBeenCalledWith(
+          messages.update.documentationDirectoryNotExists("test")
+        );
+        expect(result).toBeFalsy();
       });
       it("throws an error if no directory is provided", async () => {
         const oldConfig = { ...mockConfig };

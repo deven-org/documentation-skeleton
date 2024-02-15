@@ -6,6 +6,11 @@ export type Message = {
 };
 
 export const messages = {
+  error: {
+    documentationDirectoryNotSet:
+      "documentationDirectory has not been set yet. Please ensure that it has been set before trying to access it.",
+    stepsNotSet: "Command subclass must specify steps",
+  },
   install: {
     selectDocumentationDirectory:
       'Please enter the name of the documentation directory that should be created.\nIf the directory already exists, name clashes will have to be resolved manually.\nIf possible, the default of "docs" should be used, so GitHub can auto-detect files like the Code of Conduct.\nDocumentation directory:',
@@ -193,11 +198,21 @@ export const messages = {
     },
     useNewDocumentationDirectory:
       'The current documentation directory is "doc". The new suggestion for this directory is "docs", so GitHub can auto-detect files like the Code of Conduct, but you can also switch to any other directory.\nIf the directory already exists, name clashes will have to be resolved manually.\nDocumentation directory:',
+    provideExistingDocumenationDirectory:
+      'The name of the documentation directory is missing in the config file and it\'s not the directory the files where installed at initially ("doc").\nPlease provide the name of the current documentation directory:',
     noDocumentationDirectoryProvided: {
       prefix: "[update]",
       message: `Please, run the "update" command again and ${chalk.bold(
         "provide a name for the documentation directory"
       )}.`,
+    },
+    documentationDirectoryNotExists: (directory: string) => {
+      return {
+        prefix: "[update]",
+        message: `The selected directory "${directory}" doesn't exist. Please, run the "update" command again and ${chalk.bold(
+          "provide the name of your current documentation directory"
+        )}.`,
+      };
     },
     documentationDirectoryExists: (directory: string) => {
       return {
