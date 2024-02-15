@@ -13,21 +13,21 @@
 ## :information_source: Table of contents
 
 - [Deven Documentation Skeleton](#deven-documentation-skeleton)
-  - [:information\_source: Table of contents](#information_source-table-of-contents)
+  - [:information_source: Table of contents](#information_source-table-of-contents)
 - [:star: Introduction](#star-introduction)
   - [Goals](#goals)
-  - [:file\_folder: Documentation Structure](#file_folder-documentation-structure)
+  - [:file_folder: Documentation Structure](#file_folder-documentation-structure)
   - [Requirements](#requirements)
   - [Installation](#installation)
   - [:rocket: How to use it](#rocket-how-to-use-it)
     - [1. Install](#1-install)
     - [2. Check](#2-check)
     - [3. Update](#3-update)
-- [:white\_check\_mark: How to test](#white_check_mark-how-to-test)
+- [:white_check_mark: How to test](#white_check_mark-how-to-test)
 - [:v: Contribute](#v-contribute)
 - [:bug: Bugs and Issues](#bug-bugs-and-issues)
-- [:page\_facing\_up: License](#page_facing_up-license)
-- [:green\_heart: Code of conduct](#green_heart-code-of-conduct)
+- [:page_facing_up: License](#page_facing_up-license)
+- [:green_heart: Code of conduct](#green_heart-code-of-conduct)
 
 # :star: Introduction
 

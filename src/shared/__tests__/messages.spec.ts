@@ -6,6 +6,16 @@ const stripAnsi = (s: string): string =>
   );
 
 describe("messages", () => {
+  it("error: documentationDirectoryNotSet", async () => {
+    expect(stripAnsi(messages.error.documentationDirectoryNotSet)).toBe(
+      "documentationDirectory has not been set yet. Please ensure that it has been set before trying to access it."
+    );
+  });
+  it("error: stepsNotSet", async () => {
+    expect(stripAnsi(messages.error.stepsNotSet)).toBe(
+      "Command subclass must specify steps"
+    );
+  });
   it("selectDocumentationDirectory", async () => {
     expect(messages.install.selectDocumentationDirectory).toContain(
       "Please enter the name of the documentation directory that should be created."
@@ -148,6 +158,13 @@ describe("messages", () => {
       "The config file hasn't been found."
     );
   });
+  it("provideExistingDocumenationDirectory", async () => {
+    expect(
+      stripAnsi(messages.update.provideExistingDocumenationDirectory)
+    ).toContain(
+      `The name of the documentation directory is missing in the config file and it's not the directory the files where installed at initially ("doc").`
+    );
+  });
   it("useNewDocumentationDirectory", async () => {
     expect(stripAnsi(messages.update.useNewDocumentationDirectory)).toContain(
       'The current documentation directory is "doc". The new suggestion for this directory is "docs", so GitHub can auto-detect files like the Code of Conduct, but you can also switch to any other directory.'
@@ -158,6 +175,13 @@ describe("messages", () => {
       stripAnsi(messages.update.noDocumentationDirectoryProvided.message)
     ).toBe(
       'Please, run the "update" command again and provide a name for the documentation directory.'
+    );
+  });
+  it("documentationDirectoryNotExists", async () => {
+    expect(
+      stripAnsi(messages.update.documentationDirectoryNotExists("test").message)
+    ).toBe(
+      `The selected directory "test" doesn't exist. Please, run the "update" command again and provide the name of your current documentation directory.`
     );
   });
   it("documentationDirectoryExists", async () => {
