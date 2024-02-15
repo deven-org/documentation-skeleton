@@ -3,13 +3,11 @@ import * as fs from "fs-extra";
 import { BaseCommand } from "../commands/command";
 import mockFs from "mock-fs";
 import {
-  mockProcessExit,
   mockProcessStdout,
   mockProcessStderr,
   mockConsoleLog,
 } from "jest-mock-process";
 
-let mockExit: jest.SpyInstance;
 let mockStdout: jest.SpyInstance;
 let mockStderr: jest.SpyInstance;
 let mockLog: jest.SpyInstance;
@@ -18,14 +16,12 @@ let command: BaseCommand;
 describe("deven-cli", () => {
   afterEach(() => {
     mockFs.restore();
-    mockExit.mockRestore();
     mockStdout.mockRestore();
     mockStderr.mockRestore();
     mockLog.mockRestore();
     jest.clearAllMocks();
   });
   beforeEach(() => {
-    mockExit = mockProcessExit();
     mockStdout = mockProcessStdout();
     mockStderr = mockProcessStderr();
     mockLog = mockConsoleLog();
@@ -61,7 +57,7 @@ describe("deven-cli", () => {
     });
     it("throws an error for docsPath if no documentation directory is set", async () => {
       expect(() => command.docsPath).toThrowError(
-        "#documentationDirectory has not been set yet. Please ensure that it has been set before trying to access it."
+        "documentationDirectory has not been set yet. Please ensure that it has been set before trying to access it."
       );
     });
     it("provides the right outdated doc path (<root>/doc)", async () => {
