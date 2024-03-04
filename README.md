@@ -10,24 +10,23 @@
 
 `deven-documentation-skeleton` is built to work with NodeJS. It clones the deven's documentation skeleton in your project, provides information about the documentation coverage and help to you identify and clone the missing chapters.
 
-## :information_source: Table of contents
+## :information_source: Table of contents  <!-- omit in toc -->
 
 - [Deven Documentation Skeleton](#deven-documentation-skeleton)
-  - [:information_source: Table of contents](#information_source-table-of-contents)
 - [:star: Introduction](#star-introduction)
   - [Goals](#goals)
-  - [:file_folder: Documentation Structure](#file_folder-documentation-structure)
+  - [:file\_folder: Documentation Structure](#file_folder-documentation-structure)
   - [Requirements](#requirements)
   - [Installation](#installation)
   - [:rocket: How to use it](#rocket-how-to-use-it)
     - [1. Install](#1-install)
     - [2. Check](#2-check)
     - [3. Update](#3-update)
-- [:white_check_mark: How to test](#white_check_mark-how-to-test)
+- [:white\_check\_mark: How to test](#white_check_mark-how-to-test)
 - [:v: Contribute](#v-contribute)
 - [:bug: Bugs and Issues](#bug-bugs-and-issues)
-- [:page_facing_up: License](#page_facing_up-license)
-- [:green_heart: Code of conduct](#green_heart-code-of-conduct)
+- [:page\_facing\_up: License](#page_facing_up-license)
+- [:green\_heart: Code of conduct](#green_heart-code-of-conduct)
 
 # :star: Introduction
 
@@ -69,6 +68,8 @@ The purpose of this "documentation skeleton" project is to provide a simple way 
 
 - If you use Yarn, then => v1.2.0
 - If you use Npm, then => v8.0.0
+
+If node can't be used in the target project, one can also copy all files under `src/docs` manually into a project and start to use them.
 
 ## Installation
 
