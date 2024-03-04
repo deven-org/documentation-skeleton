@@ -2,31 +2,30 @@
 
 This chapter provides the user with all needed information around testing within this project.
 
-## Content
+## Content <!-- omit in toc -->
 
 - [Testing](#testing)
-  - [Content](#content)
   - [Tooling](#tooling)
-  - [Jest](#jest)
-  - [mock-fs](#mock-fs)
-  - [jest-mock-process](#jest-mock-process)
+    - [Jest](#jest)
+    - [mock-fs](#mock-fs)
+    - [jest-mock-process](#jest-mock-process)
   - [How to write tests](#how-to-write-tests)
   - [How to run tests](#how-to-run-tests)
 
 ## Tooling
 
-## Jest
+### Jest
 
 As _testing framework_ we are currently using [Jest](https://jestjs.io/).
 
-## mock-fs
+### mock-fs
 
 Since the CLI is mainly reading and writing files, the tests are using the _mock-fs_ module to allow Node's built-in fs module to be backed temporarily by an in-memory, mock file system.
 This lets you run tests against a set of mock files and directories instead of lugging around a bunch of test fixtures.
 
 [Read more here](https://github.com/tschaub/mock-fs).
 
-## jest-mock-process
+### jest-mock-process
 
 The CLI will be most probably used also in CI/CD pipelines. Therefore the _process exit-codes_ are very important.
 The _jest-mock-process_ module mocks the Node's process properties in Jest making them easily testable.
