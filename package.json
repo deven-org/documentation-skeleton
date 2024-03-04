@@ -29,11 +29,12 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:dev": "jest --watch",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm pkg delete engines && npm run build",
     "self:install": "node bin/index.js install",
     "self:update": "node bin/index.js update",
     "self:check": "node bin/index.js check",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postpublish": "git checkout package.json"
   },
   "repository": {
     "type": "git",
@@ -45,7 +46,8 @@
   ],
   "homepage": "https://github.com/deven-org/documentation-skeleton",
   "engines": {
-    "node": ">= 14"
+    "node": ">=16.20.2 < 20.0.0",
+    "npm": ">= 8.19.4 < 10.0.0"
   },
   "author": "Deven Team",
   "license": "MIT",
