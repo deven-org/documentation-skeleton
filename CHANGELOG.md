@@ -5,6 +5,26 @@
 
 * add husky hooks and imrove test coverage ([caeff1a](https://git.sinnerschrader.com/deven/documentation-skeleton/commit/caeff1a11f517fb520cd1dff08bb516f77196d07))
 
+## [3.0.0](https://github.com/deven-org/documentation-skeleton/compare/v2.1.0...v3.0.0) (2024-03-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* make documentation directory optional
+* remove backup functionality
+
+### Features
+
+* make documentation directory optional ([ecb2909](https://github.com/deven-org/documentation-skeleton/commit/ecb29097030238b035390177dfb2766ede71e2bc))
+* remove backup functionality ([12ea57a](https://github.com/deven-org/documentation-skeleton/commit/12ea57af3d4c6ecef48d7da20c95eec7581ffae3))
+* rename folder from doc to docs ([09f1ad5](https://github.com/deven-org/documentation-skeleton/commit/09f1ad51dcbff4c0bb50d7dee3a85697be97b393))
+
+
+### Bug Fixes
+
+* add prompt for existing documentation directory if renamed ([5c1532d](https://github.com/deven-org/documentation-skeleton/commit/5c1532d6ecfa7da6620266e6626b9b24c124b75e))
+* enable and optimize husky hooks ([007b0bc](https://github.com/deven-org/documentation-skeleton/commit/007b0bc1101913d3fbdd66bff51b68fac7612c70))
+
 ## [2.1.0](https://github.com/deven-org/documentation-skeleton/compare/v1.4.0...v2.1.0) (2023-11-14)
 
 
