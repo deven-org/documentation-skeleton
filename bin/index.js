@@ -17,6 +17,11 @@ const { version } = require("../package.json");
 
 clear();
 console.log(" ");
+console.log(chalk.redBright.bold("IMPORTANT:"));
+console.log(chalk.redBright.bold("The package was moved to"));
+console.log("https://www.npmjs.com/package/@deven-org/documentation-skeleton");
+console.log(chalk.redBright.bold("This package will not receive any further updates, please switch to the new one linked above."))
+console.log(" ");
 console.log(chalk.white.bold("deven-doc-install:"));
 console.log(" ");
 cli
